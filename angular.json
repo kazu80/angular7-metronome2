@@ -29,7 +29,9 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/pixi.js/dist/pixi.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -61,7 +63,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "angular7-metronome2:build"
+            "browserTarget": "angular7-metronome2:build",
+            "port": 4203
           },
           "configurations": {
             "production": {
