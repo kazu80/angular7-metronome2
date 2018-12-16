@@ -19,26 +19,37 @@ export class PcComponent implements OnInit {
     private mainService: MainService
   ) {
     this._el = el.nativeElement;
-
-    // Pixi.js
-    this.app = new PIXI.Application({});
   }
 
   ngOnInit() {
+    // Set Event
+    this.eventOfMode();
+
+    // Set Mode - stage0
+    this.mainService.setMode('stage0');
+  }
+
+  eventOfMode () {
+    this.mainService.mode.subscribe((mode: string) => {
+      switch (mode) {
+        case 'stage0':
+          this.openingInit();
+          break;
+        case 'stage1':
+          break;
+      }
+    });
+  }
+
+  openingInit() {
+    // Pixi.js
+    this.app = new PIXI.Application({});
     this.app.renderer.view.style.position = 'absolute';
     this.app.renderer.view.style.display  = 'block';
     this.app.renderer.autoResize          = true;
     this.app.renderer.resize(window.innerWidth, window.innerHeight);
     this.app.renderer.backgroundColor = 0xffffff;
 
-    // Set items on initial
-    this.setInitialItems();
-
-    // Add the canvas that Pixi automatically created for you to the HTML document
-    this._el.querySelector('#canvas-wrapper').appendChild(this.app.view);
-  }
-
-  setInitialItems() {
     /** Initial message **/
     const button      = this.addText('METRONOME', {fontSize: '80px', fontFamily: 'brandon-grotesque', fontWeight: 'BOLD'});
     button.anchor.x   = 0.5;
@@ -48,6 +59,9 @@ export class PcComponent implements OnInit {
 
     // ボタンをステージに追加
     this.app.stage.addChild(button);
+
+    // Add the canvas that Pixi automatically created for you to the HTML document
+    this._el.querySelector('#canvas-wrapper').appendChild(this.app.view);
   }
 
   /**
