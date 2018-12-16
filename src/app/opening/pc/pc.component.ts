@@ -1,4 +1,5 @@
 import {Component, ElementRef, OnInit} from '@angular/core';
+import {MainService} from '../../service/main.service';
 
 declare var PIXI: any;
 
@@ -13,7 +14,10 @@ export class PcComponent implements OnInit {
 
   private _el: HTMLElement;
 
-  constructor(el: ElementRef) {
+  constructor(
+    el: ElementRef,
+    private mainService: MainService
+  ) {
     this._el = el.nativeElement;
 
     // Pixi.js
