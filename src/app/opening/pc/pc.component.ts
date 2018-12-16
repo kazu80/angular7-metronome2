@@ -1,5 +1,6 @@
 import {Component, ElementRef, OnInit} from '@angular/core';
 import {MainService} from '../../service/main.service';
+import {PixiService} from '../../service/pixi.service';
 
 declare var PIXI: any;
 
@@ -16,7 +17,8 @@ export class PcComponent implements OnInit {
 
   constructor(
     el: ElementRef,
-    private mainService: MainService
+    private mainService: MainService,
+    private pixiService: PixiService
   ) {
     this._el = el.nativeElement;
   }
@@ -36,11 +38,15 @@ export class PcComponent implements OnInit {
           this.openingInit();
           break;
         case 'stage1':
+          this.stage1();
           break;
       }
     });
   }
 
+  /**
+   * Event
+   */
   openingInit() {
     // Pixi.js
     this.app = new PIXI.Application({});
@@ -62,6 +68,29 @@ export class PcComponent implements OnInit {
 
     // Add the canvas that Pixi automatically created for you to the HTML document
     this._el.querySelector('#canvas-wrapper').appendChild(this.app.view);
+
+    this.mainService.setMode('stage1');
+  }
+
+  stage1() {
+
+    const text = this.pixiService.text();
+    text.value = 'foo';
+
+    text.style.fontSize = '36px';
+    text.style.fontWeight = 'bold';
+    text.style.color = '#ffffff';
+
+    /*
+    text.animation.alpha.from = 0;
+    text.animation.alpha.to = 1;
+    text.animation.blur.from = 5;
+    text.animation.blur.to = 0;
+    text.animation.duration = 400;
+    text.x = 100;
+    text.y = 100;
+    */
+
   }
 
   /**
