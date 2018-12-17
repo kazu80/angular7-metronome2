@@ -72,6 +72,14 @@ export class PcComponent implements OnInit {
     this._el.querySelector('#canvas-wrapper').appendChild(this.app.view);
 
     this.mainService.setMode('stage1');
+
+    this.app.ticker.add(delta => this.animationLoop(delta));
+  }
+
+  animationLoop(delta) {
+
+    // STOP
+    this.app.ticker.stop();
   }
 
   stage1() {

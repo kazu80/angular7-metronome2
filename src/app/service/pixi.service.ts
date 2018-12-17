@@ -46,13 +46,45 @@ export class PixiStyle {
 }
 
 export class PixiAnimationAlpha {
-  from: number;
-  to: number;
+  private _from: number;
+  private _to: number;
+
+  get from(): number {
+    return this._from;
+  }
+
+  set from(value: number) {
+    this._from = value;
+  }
+
+  get to(): number {
+    return this._to;
+  }
+
+  set to(value: number) {
+    this._to = value;
+  }
 }
 
 export class PixiAnimationBlur {
-  from: number;
-  to: number;
+  _from: number;
+  _to: number;
+
+  get from(): number {
+    return this._from;
+  }
+
+  set from(value: number) {
+    this._from = value;
+  }
+
+  get to(): number {
+    return this._to;
+  }
+
+  set to(value: number) {
+    this._to = value;
+  }
 }
 
 export class PixiPosition {
