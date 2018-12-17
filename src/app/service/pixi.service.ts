@@ -55,6 +55,48 @@ export class PixiAnimationBlur {
   to: number;
 }
 
+export class PixiPosition {
+  _x: number;
+  _y: number;
+
+  get x() {
+    return this._x;
+  }
+
+  get y() {
+    return this._y;
+  }
+
+  set x(value: number) {
+    this._x = value;
+  }
+
+  set y(value: number) {
+    this._y = value;
+  }
+}
+
+export class PixiAnchor {
+  _x: number;
+  _y: number;
+
+  get x() {
+    return this._x;
+  }
+
+  get y() {
+    return this._y;
+  }
+
+  set x(value: number) {
+    this._x = value;
+  }
+
+  set y(value: number) {
+    this._y = value;
+  }
+}
+
 export class PixiAnimation {
   _alpha: PixiAnimationAlpha;
   _blur: PixiAnimationBlur;
@@ -82,6 +124,8 @@ export class PixiText {
   _config: PixiConfig;
   _style: PixiStyle;
   _animation: PixiAnimation;
+  _position: PixiPosition;
+  _anchor: PixiAnchor;
 
   _value: string;
   _x: number;
@@ -92,8 +136,10 @@ export class PixiText {
       'value': '',
     };
 
-    this._style = new PixiStyle();
+    this._style     = new PixiStyle();
     this._animation = new PixiAnimation();
+    this._position  = new PixiPosition();
+    this._anchor    = new PixiAnchor();
   }
 
   set value (value: string) {
@@ -102,22 +148,6 @@ export class PixiText {
 
   get value() {
     return this._value;
-  }
-
-  set x (value: number) {
-    this._x = value;
-  }
-
-  get x() {
-    return this._x;
-  }
-
-  set y (value: number) {
-    this._y = value;
-  }
-
-  get y() {
-    return this._y;
   }
 
   set text (value: string) {
@@ -132,6 +162,14 @@ export class PixiText {
     return this._animation;
   }
 
+  get position() {
+    return this._position;
+  }
+
+  get anchor() {
+    return this._anchor;
+  }
+
   put(stage) {
     const style = {
       'fontSize': this.style.fontSize,
@@ -141,8 +179,11 @@ export class PixiText {
     };
     const text = new PIXI.Text(this.value, style);
 
-    text.position.x = this.x;
-    text.position.y = this.y;
+    text.position.x = this.position.x;
+    text.position.y = this.position.y;
+
+    text.anchor.x = this.anchor.x;
+    text.anchor.y = this.anchor.y;
 
     stage.addChild(text);
   }
