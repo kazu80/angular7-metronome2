@@ -11,7 +11,7 @@ declare var PIXI: any;
 })
 export class PcComponent implements OnInit {
   public app: any;
-  public texts: Array = [];
+  // public texts: Array = [];
 
   private _el: HTMLElement;
 
@@ -57,6 +57,7 @@ export class PcComponent implements OnInit {
     this.app.renderer.backgroundColor = 0xffffff;
 
     /** Initial message **/
+    /*
     const button      = this.addText('METRONOME', {fontSize: '80px', fontFamily: 'brandon-grotesque', fontWeight: 'BOLD'});
     button.anchor.x   = 0.5;
     button.anchor.y   = 0.5;
@@ -65,6 +66,7 @@ export class PcComponent implements OnInit {
 
     // ボタンをステージに追加
     this.app.stage.addChild(button);
+    */
 
     // Add the canvas that Pixi automatically created for you to the HTML document
     this._el.querySelector('#canvas-wrapper').appendChild(this.app.view);
@@ -75,22 +77,21 @@ export class PcComponent implements OnInit {
   stage1() {
 
     const text = this.pixiService.text();
-    text.value = 'foo';
+    text.value = 'METRONOME';
 
     text.style.fontSize = '36px';
-    text.style.fontWeight = 'bold';
-    text.style.color = '#ffffff';
+    text.style.fontWeight = '200';
 
-    /*
     text.animation.alpha.from = 0;
     text.animation.alpha.to = 1;
     text.animation.blur.from = 5;
     text.animation.blur.to = 0;
     text.animation.duration = 400;
-    text.x = 100;
-    text.y = 100;
-    */
 
+    text.x = window.innerWidth * 0.5;
+    text.y = window.innerHeight * 0.5;
+
+    text.put(this.app.stage);
   }
 
   /**
@@ -98,7 +99,7 @@ export class PcComponent implements OnInit {
    */
   addText(string, style) {
     const text = new PIXI.Text(string, style);
-    this.texts.push(text);
+    // this.texts.push(text);
 
     return text;
   }

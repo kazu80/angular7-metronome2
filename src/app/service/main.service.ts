@@ -5,8 +5,8 @@ import {Observable, Subject} from 'rxjs';
   providedIn: 'root'
 })
 export class MainService {
-  private _mode: Subject;
-  public mode: Observable;
+  private _mode: Subject<any>;
+  public mode: Observable<any>;
 
   constructor() {
     this._mode = new Subject();
