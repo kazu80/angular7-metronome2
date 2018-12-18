@@ -167,10 +167,9 @@ export class PixiText {
   _animation: PixiAnimation;
   _position: PixiPosition;
   _anchor: PixiAnchor;
+  _instance: Text;
 
   _value: string;
-  _x: number;
-  _y: number;
 
   constructor () {
     this._config = {
@@ -181,6 +180,10 @@ export class PixiText {
     this._animation = new PixiAnimation();
     this._position  = new PixiPosition();
     this._anchor    = new PixiAnchor();
+  }
+
+  get pixiText() {
+    return this._instance;
   }
 
   set value (value: string) {
@@ -228,6 +231,9 @@ export class PixiText {
     text.anchor.y = this.anchor.y;
 
     stage.addChild(text);
+
+    // Save instance
+    this._instance = text;
   }
 }
 
