@@ -11,6 +11,7 @@ export class PixiStyle {
   private _fontWeight: string;
   private _fontFamily: string;
   private _color: string;
+  private _align: string;
 
   set color(value: string) {
     this._color = value;
@@ -42,6 +43,14 @@ export class PixiStyle {
 
   get fontFamily() {
     return this._fontFamily || 'brandon-grotesque';
+  }
+
+  get align() {
+    return this._align || 'left';
+  }
+
+  set align(value: string) {
+    this._align = value;
   }
 }
 
@@ -204,10 +213,11 @@ export class PixiText {
 
   put(stage) {
     const style = {
-      'fontSize': this.style.fontSize,
+      'fontSize'  : this.style.fontSize,
       'fontWeight': this.style.fontWeight,
       'fontFamily': this.style.fontFamily,
-      'fill': this.style.color,
+      'align'     : this.style.align,
+      'fill'      : this.style.color,
     };
     const text = new PIXI.Text(this.value, style);
 
