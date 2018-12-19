@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import Ticker = PIXI.ticker.Ticker;
 
 declare var PIXI: any;
 
@@ -234,6 +235,14 @@ export class PixiText {
 
     // Save instance
     this._instance = text;
+  }
+
+  run(ticker: Ticker) {
+    ticker.add((deltaTime) => {
+
+
+      ticker.stop();
+    });
   }
 }
 
