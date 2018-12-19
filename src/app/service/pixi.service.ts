@@ -245,25 +245,16 @@ export class PixiText {
   }
 
   run(ticker: Ticker) {
-
-    // 0.001 sec = 0.06fps;
-    // 0.01 sec = 0.6fps;
-    // 0.1 sec = 6fps;
-    // 1 sec = 60fps;
-    // x sec = 60fps * x;
-    // 1 secかけて1にしたい。= 1 / 60 FPS;
-    // const fps = this.animation.duration * 0.06;
-    // 3000 / 0.06
+    const alpha = this.animation.alpha.to / (this.animation.duration * (ticker.FPS / 1000));
 
     ticker.add((deltaTime) => {
-
       if (this._instance.alpha <= this.animation.alpha.to) {
-        this._instance.alpha += 0.01;
+        this._instance.alpha += alpha;
+      } else {
+        ticker.stop();
       }
 
-      console.log(this._instance.alpha);
-
-      ticker.stop();
+      // ticker.stop();
     });
   }
 }

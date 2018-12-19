@@ -77,7 +77,7 @@ export class PcComponent implements OnInit {
   stage1() {
 
     const text = this.pixiService.text();
-    text.value = 'PRODUCE BY \n\n KAZUYOSHI KAWAKAMI\n @kawakami0717';
+    text.value = 'PRODUCE BY\n\n KAZUYOSHI KAWAKAMI\n @kawakami0717';
 
     text.style.fontSize   = '36px';
     text.style.fontWeight = 'bold';
@@ -87,7 +87,7 @@ export class PcComponent implements OnInit {
     text.animation.alpha.to   = 1;
     text.animation.blur.from  = 5;
     text.animation.blur.to    = 0;
-    text.animation.duration   = 400;
+    text.animation.duration   = 1000;
 
     text.position.x = window.innerWidth * 0.5 - 20;
     text.position.y = window.innerHeight * 0.5;
