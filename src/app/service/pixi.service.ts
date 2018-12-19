@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import Ticker = PIXI.ticker.Ticker;
+import Text = PIXI.Text;
 
 declare var PIXI: any;
 
@@ -157,6 +158,10 @@ export class PixiAnimation {
     return this._blur;
   }
 
+  get duration() {
+    return this._duration;
+  }
+
   set duration(value: number) {
     this._duration = value;
   }
@@ -231,6 +236,8 @@ export class PixiText {
     text.anchor.x = this.anchor.x;
     text.anchor.y = this.anchor.y;
 
+    text.alpha = this.animation.alpha.from;
+
     stage.addChild(text);
 
     // Save instance
@@ -238,8 +245,23 @@ export class PixiText {
   }
 
   run(ticker: Ticker) {
+
+    // 0.001 sec = 0.06fps;
+    // 0.01 sec = 0.6fps;
+    // 0.1 sec = 6fps;
+    // 1 sec = 60fps;
+    // x sec = 60fps * x;
+    // 1 secかけて1にしたい。= 1 / 60 FPS;
+    // const fps = this.animation.duration * 0.06;
+    // 3000 / 0.06
+
     ticker.add((deltaTime) => {
 
+      if (this._instance.alpha <= this.animation.alpha.to) {
+        this._instance.alpha += 0.01;
+      }
+
+      console.log(this._instance.alpha);
 
       ticker.stop();
     });
