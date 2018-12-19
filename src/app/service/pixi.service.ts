@@ -60,6 +60,11 @@ export class PixiAnimationAlpha {
   private _from: number;
   private _to: number;
 
+  constructor() {
+    this._from = 1;
+    this._to   = 1;
+  }
+
   get from(): number {
     return this._from;
   }
@@ -80,6 +85,11 @@ export class PixiAnimationAlpha {
 export class PixiAnimationBlur {
   _from: number;
   _to: number;
+
+  constructor() {
+    this._from = 0;
+    this._to   = 0;
+  }
 
   get from(): number {
     return this._from;
@@ -248,6 +258,11 @@ export class PixiText {
 
     text.alpha = this.animation.alpha.from;
 
+    // Blur
+    const filter = new PIXI.filters.BlurFilter();
+    filter.blur  = this.animation.blur.from;
+    text.filters = [filter];
+
     stage.addChild(text);
 
     // Save instance
@@ -257,6 +272,8 @@ export class PixiText {
   run(ticker: Ticker) {
     const alpha = this.animation.alpha.to / (this.animation.duration * (ticker.FPS / 1000));
     let delay   = this.animation.delay * (ticker.FPS / 1000);
+
+    // const blur = this.animation.blur.to / (this.animation.duration * (ticker.FPS / 1000));
 
     ticker.add((deltaTime) => {
       if (delay > 0) {
@@ -269,6 +286,7 @@ export class PixiText {
       } else {
         ticker.stop();
       }
+
     });
   }
 }
