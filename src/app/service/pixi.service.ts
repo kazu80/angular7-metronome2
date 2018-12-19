@@ -144,10 +144,12 @@ export class PixiAnimation {
   _alpha: PixiAnimationAlpha;
   _blur: PixiAnimationBlur;
   _duration: number;
+  _delay: number;
 
   constructor() {
     this._alpha = new PixiAnimationAlpha();
-    this._blur = new PixiAnimationBlur();
+    this._blur  = new PixiAnimationBlur();
+    this._delay = 0;
   }
 
   get alpha() {
@@ -164,6 +166,14 @@ export class PixiAnimation {
 
   set duration(value: number) {
     this._duration = value;
+  }
+
+  get delay() {
+    return this._delay;
+  }
+
+  set delay(value: number) {
+    this._delay = value;
   }
 }
 
@@ -246,15 +256,19 @@ export class PixiText {
 
   run(ticker: Ticker) {
     const alpha = this.animation.alpha.to / (this.animation.duration * (ticker.FPS / 1000));
+    let delay   = this.animation.delay * (ticker.FPS / 1000);
 
     ticker.add((deltaTime) => {
+      if (delay > 0) {
+        delay--;
+        return;
+      }
+
       if (this._instance.alpha <= this.animation.alpha.to) {
         this._instance.alpha += alpha;
       } else {
         ticker.stop();
       }
-
-      // ticker.stop();
     });
   }
 }
