@@ -191,7 +191,8 @@ export class PixiText {
   _animation: PixiAnimation;
   _position: PixiPosition;
   _anchor: PixiAnchor;
-  _instance: any;
+  private _instanceText: any;
+  private _instanceBlur: any;
 
   _value: string;
 
@@ -207,7 +208,7 @@ export class PixiText {
   }
 
   get pixiText() {
-    return this._instance;
+    return this._instanceText;
   }
 
   set value (value: string) {
@@ -257,21 +258,23 @@ export class PixiText {
     text.alpha = this.animation.alpha.from;
 
     // Blur
-    const filter = new PIXI.filters.BlurFilter();
-    filter.blur  = this.animation.blur.from;
-    text.filters = [filter];
+    const filterBlur = new PIXI.filters.BlurFilter();
+    filterBlur.blur = this.animation.blur.from;
+    text.filters = [filterBlur];
 
+    // Add Stage
     stage.addChild(text);
 
     // Save instance
-    this._instance = text;
+    this._instanceText = text;
+    this._instanceBlur = filterBlur;
   }
 
   run(ticker: any) {
     const alpha = this.animation.alpha.to / (this.animation.duration * (ticker.FPS / 1000));
     let delay   = this.animation.delay * (ticker.FPS / 1000);
 
-    // const blur = this.animation.blur.to / (this.animation.duration * (ticker.FPS / 1000));
+    const blur = this.animation.blur.from / (this.animation.duration * (ticker.FPS / 1000));
 
     ticker.add((deltaTime) => {
       if (delay > 0) {
@@ -279,10 +282,14 @@ export class PixiText {
         return;
       }
 
-      if (this._instance.alpha <= this.animation.alpha.to) {
-        this._instance.alpha += alpha;
+      if (this._instanceText.alpha <= this.animation.alpha.to) {
+        this._instanceText.alpha += alpha;
       } else {
         ticker.stop();
+      }
+
+      if (this._instanceBlur.blur > this.animation.blur.to) {
+        this._instanceBlur.blur -= blur;
       }
 
     });
