@@ -44,7 +44,11 @@ export class PcComponent implements OnInit {
     });
 
     this.pixiService.mode.subscribe((mode: string) => {
-      console.log('pixiServiceRx', mode);
+      switch (mode) {
+        case 'stage1_ended':
+          this.stage2();
+          break;
+      }
     });
   }
 
@@ -88,6 +92,12 @@ export class PcComponent implements OnInit {
 
     text.put(this.app.stage);
     text.run('stage1', this.app.ticker);
+  }
+
+  stage2() {
+    setTimeout(() => {
+      console.log('stage2 start');
+    }, 3000);
   }
 
   /**
