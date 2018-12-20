@@ -1,6 +1,6 @@
 import {Component, ElementRef, OnInit} from '@angular/core';
 import {MainService} from '../../service/main.service';
-import {PixiService} from '../../service/pixi.service';
+import {PixiService, PixiText} from '../../service/pixi.service';
 
 declare var PIXI: any;
 
@@ -11,9 +11,9 @@ declare var PIXI: any;
 })
 export class PcComponent implements OnInit {
   public app: any;
-  // public texts: Array = [];
 
   private _el: HTMLElement;
+  private _text01: PixiText;
 
   constructor(
     el: ElementRef,
@@ -71,33 +71,40 @@ export class PcComponent implements OnInit {
   }
 
   stage1() {
-    const text = this.pixiService.text();
-    text.value = 'PRODUCE BY\n\n KAZUYOSHI KAWAKAMI\n @kawakami0717';
+    this._text01       = this.pixiService.text();
+    this._text01.value = 'PRODUCE BY\n\n KAZUYOSHI KAWAKAMI\n @kawakami0717';
 
-    text.style.fontSize   = '36px';
-    text.style.fontWeight = 'bold';
-    text.style.align      = 'center';
+    this._text01.style.fontSize   = '36px';
+    this._text01.style.fontWeight = 'bold';
+    this._text01.style.align      = 'center';
 
-    text.animation.alpha.from = 0;
-    text.animation.alpha.to   = 1;
-    text.animation.blur.from = 5;
-    text.animation.blur.to    = 0;
-    text.animation.duration = 500;
-    text.animation.delay      = 1000;
+    this._text01.animation.alpha.from = 0;
+    this._text01.animation.alpha.to   = 1;
+    this._text01.animation.blur.from  = 5;
+    this._text01.animation.blur.to    = 0;
+    this._text01.animation.duration   = 500;
+    this._text01.animation.delay      = 1000;
 
-    text.position.x = window.innerWidth * 0.5 - 20;
-    text.position.y = window.innerHeight * 0.5;
-    text.anchor.x   = 0.5;
-    text.anchor.y   = 0.5;
+    this._text01.position.x = window.innerWidth * 0.5 - 20;
+    this._text01.position.y = window.innerHeight * 0.5;
+    this._text01.anchor.x   = 0.5;
+    this._text01.anchor.y   = 0.5;
 
-    text.put(this.app.stage);
-    text.run('stage1', this.app.ticker);
+    this._text01.put(this.app.stage);
+    this._text01.run('stage1', this.app.ticker);
   }
 
   stage2() {
     setTimeout(() => {
       console.log('stage2 start');
-    }, 3000);
+
+      this._text01.animation.alpha.from = 1;
+      this._text01.animation.alpha.to   = 0;
+      this._text01.animation.duration   = 3000;
+
+      this._text01.run('stage2', this.app.ticker);
+
+    }, 1000);
   }
 
   /**
