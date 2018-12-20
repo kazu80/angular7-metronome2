@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import {Observable, Subject} from 'rxjs';
 
 declare var PIXI: any;
 
@@ -196,7 +197,9 @@ export class PixiText {
 
   _value: string;
 
-  constructor () {
+  constructor(
+    private pixiService: PixiService
+  ) {
     this._config = {
       'value': '',
     };
@@ -270,7 +273,7 @@ export class PixiText {
     this._instanceBlur = filterBlur;
   }
 
-  run(ticker: any) {
+  run(name, ticker: any) {
     const durationFPS = this.animation.duration * (ticker.FPS / 1000);
     const alpha = this.animation.alpha.to / durationFPS;
     const blur = this.animation.blur.from / durationFPS;
@@ -281,6 +284,9 @@ export class PixiText {
       // Duration
       if (renderedFPS >= durationFPS) {
         ticker.stop();
+
+        // 終了イベントの発火
+        this.pixiService.setMode(name + '_ended');
         return;
       }
 
@@ -309,11 +315,19 @@ export class PixiText {
   providedIn: 'root'
 })
 export class PixiService {
-  private _text: string;
+  private _mode: Subject<any>;
+  public mode: Observable<any>;
 
-  constructor() { }
+  constructor() {
+    this._mode = new Subject();
+    this.mode = this._mode.asObservable();
+  }
+
+  setMode(value: string) {
+    this._mode.next(value);
+  }
 
   text (): PixiText {
-    return new PixiText();
+    return new PixiText(this);
   }
 }

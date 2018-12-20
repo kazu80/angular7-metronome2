@@ -42,6 +42,10 @@ export class PcComponent implements OnInit {
           break;
       }
     });
+
+    this.pixiService.mode.subscribe((mode: string) => {
+      console.log('pixiServiceRx', mode);
+    });
   }
 
   /**
@@ -56,18 +60,6 @@ export class PcComponent implements OnInit {
     this.app.renderer.resize(window.innerWidth, window.innerHeight);
     this.app.renderer.backgroundColor = 0xffffff;
 
-    /** Initial message **/
-    /*
-    const button      = this.addText('METRONOME', {fontSize: '80px', fontFamily: 'brandon-grotesque', fontWeight: 'BOLD'});
-    button.anchor.x   = 0.5;
-    button.anchor.y   = 0.5;
-    button.position.x = window.innerWidth * 0.5;
-    button.position.y = window.innerHeight * 0.5;
-
-    // ボタンをステージに追加
-    this.app.stage.addChild(button);
-    */
-
     // Add the canvas that Pixi automatically created for you to the HTML document
     this._el.querySelector('#canvas-wrapper').appendChild(this.app.view);
 
@@ -75,7 +67,6 @@ export class PcComponent implements OnInit {
   }
 
   stage1() {
-
     const text = this.pixiService.text();
     text.value = 'PRODUCE BY\n\n KAZUYOSHI KAWAKAMI\n @kawakami0717';
 
@@ -96,7 +87,7 @@ export class PcComponent implements OnInit {
     text.anchor.y   = 0.5;
 
     text.put(this.app.stage);
-    text.run(this.app.ticker);
+    text.run('stage1', this.app.ticker);
   }
 
   /**
