@@ -271,27 +271,36 @@ export class PixiText {
   }
 
   run(ticker: any) {
-    const alpha = this.animation.alpha.to / (this.animation.duration * (ticker.FPS / 1000));
+    const durationFPS = this.animation.duration * (ticker.FPS / 1000);
+    const alpha = this.animation.alpha.to / durationFPS;
+    const blur = this.animation.blur.from / durationFPS;
     let delay   = this.animation.delay * (ticker.FPS / 1000);
 
-    const blur = this.animation.blur.from / (this.animation.duration * (ticker.FPS / 1000));
-
+    let renderedFPS = 0;
     ticker.add((deltaTime) => {
+      // Duration
+      if (renderedFPS >= durationFPS) {
+        ticker.stop();
+        return;
+      }
+
+      // Delay
       if (delay > 0) {
         delay--;
         return;
       }
 
+      // Animation Alpha
       if (this._instanceText.alpha <= this.animation.alpha.to) {
         this._instanceText.alpha += alpha;
-      } else {
-        ticker.stop();
       }
 
+      // Animation Blur
       if (this._instanceBlur.blur > this.animation.blur.to) {
         this._instanceBlur.blur -= blur;
       }
 
+      renderedFPS++;
     });
   }
 }

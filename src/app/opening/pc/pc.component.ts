@@ -87,7 +87,7 @@ export class PcComponent implements OnInit {
     text.animation.alpha.to   = 1;
     text.animation.blur.from = 5;
     text.animation.blur.to    = 0;
-    text.animation.duration = 800;
+    text.animation.duration = 500;
     text.animation.delay      = 1000;
 
     text.position.x = window.innerWidth * 0.5 - 20;
