@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import Ticker = PIXI.ticker.Ticker;
-import Text = PIXI.Text;
 
 declare var PIXI: any;
 
@@ -193,7 +191,7 @@ export class PixiText {
   _animation: PixiAnimation;
   _position: PixiPosition;
   _anchor: PixiAnchor;
-  _instance: Text;
+  _instance: any;
 
   _value: string;
 
@@ -269,7 +267,7 @@ export class PixiText {
     this._instance = text;
   }
 
-  run(ticker: Ticker) {
+  run(ticker: any) {
     const alpha = this.animation.alpha.to / (this.animation.duration * (ticker.FPS / 1000));
     let delay   = this.animation.delay * (ticker.FPS / 1000);
 
