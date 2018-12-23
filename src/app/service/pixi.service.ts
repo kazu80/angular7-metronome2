@@ -280,7 +280,7 @@ export class PixiText {
   run(name, ticker: any) {
     const fps = ticker.FPS;
 
-    let delay   = this.animation.delay * (ticker.FPS / 1000);
+    let delay = this.animation.delay * (ticker.FPS / 1000);
 
     ticker.start();
 
@@ -321,6 +321,10 @@ export class PixiText {
         // Animation Blur
         if (this._instanceBlur.blur > this.animation.blur.to) {
           this._instanceBlur.blur -= blur;
+        }
+
+        if (this._instanceBlur.blur <= this.animation.blur.to) {
+          this._instanceBlur.blur += blur;
         }
 
         renderedFPS++;

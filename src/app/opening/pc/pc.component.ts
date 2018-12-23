@@ -100,11 +100,13 @@ export class PcComponent implements OnInit {
     setTimeout(() => {
       this._text01.animation.alpha.from = 1;
       this._text01.animation.alpha.to   = 0;
+      this._text01.animation.blur.from  = 0;
+      this._text01.animation.blur.to    = 5;
       this._text01.animation.duration   = 500;
 
       this._text01.run('stage2', this.app.ticker);
 
-    }, 1000);
+    }, 2000);
   }
 
   /**
