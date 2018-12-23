@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Observable, Subject} from 'rxjs';
+import {tick} from '@angular/core/testing';
 
 declare var PIXI: any;
 
@@ -194,6 +195,7 @@ export class PixiText {
   _anchor: PixiAnchor;
   private _instanceText: any;
   private _instanceBlur: any;
+  private _stage: number;
 
   _value: string;
 
@@ -203,6 +205,8 @@ export class PixiText {
     this._config = {
       'value': '',
     };
+
+    this._stage = 0;
 
     this._style     = new PixiStyle();
     this._animation = new PixiAnimation();
@@ -274,40 +278,55 @@ export class PixiText {
   }
 
   run(name, ticker: any) {
-    const durationFPS = this.animation.duration * (ticker.FPS / 1000);
-    const alpha = this.animation.alpha.to / durationFPS;
-    const blur = this.animation.blur.from / durationFPS;
+    const fps = ticker.FPS;
+
     let delay   = this.animation.delay * (ticker.FPS / 1000);
 
-    let renderedFPS = 0;
-    ticker.add((deltaTime) => {
-      // Duration
-      if (renderedFPS >= durationFPS) {
-        ticker.stop();
+    ticker.start();
 
-        // 終了イベントの発火
-        this.pixiService.setMode(name + '_ended');
-        return;
-      }
+    if (name === 'stage1') {
+      let renderedFPS = 0;
+      ticker.add((deltaTime) => {
+        const durationFPS = this.animation.duration * (fps / 1000);
+        const alpha       = Math.abs(this.animation.alpha.from - this.animation.alpha.to) / durationFPS;
+        const blur        = Math.abs(this.animation.blur.from - this.animation.blur.to) / durationFPS;
 
-      // Delay
-      if (delay > 0) {
-        delay--;
-        return;
-      }
+        // Duration
+        if (renderedFPS >= durationFPS) {
+          ticker.stop();
 
-      // Animation Alpha
-      if (this._instanceText.alpha <= this.animation.alpha.to) {
-        this._instanceText.alpha += alpha;
-      }
+          renderedFPS = 0;
 
-      // Animation Blur
-      if (this._instanceBlur.blur > this.animation.blur.to) {
-        this._instanceBlur.blur -= blur;
-      }
+          // 終了イベントの発火
+          this._stage += 1;
+          this.pixiService.setMode(`stage${this._stage}_ended`);
+          return;
+        }
 
-      renderedFPS++;
-    });
+        // Delay
+        if (delay > 0) {
+          delay--;
+          return;
+        }
+
+        // Animation Alpha
+        if (this._instanceText.alpha <= this.animation.alpha.to) {
+          this._instanceText.alpha += alpha;
+        }
+
+        if (this._instanceText.alpha > this.animation.alpha.to) {
+          this._instanceText.alpha -= alpha;
+        }
+
+        // Animation Blur
+        if (this._instanceBlur.blur > this.animation.blur.to) {
+          this._instanceBlur.blur -= blur;
+        }
+
+        renderedFPS++;
+      });
+    }
+
   }
 }
 

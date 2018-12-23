@@ -48,6 +48,8 @@ export class PcComponent implements OnInit {
         case 'stage1_ended':
           this.stage2();
           break;
+        case 'stage2_ended':
+          break;
       }
     });
   }
@@ -96,11 +98,9 @@ export class PcComponent implements OnInit {
 
   stage2() {
     setTimeout(() => {
-      console.log('stage2 start');
-
       this._text01.animation.alpha.from = 1;
       this._text01.animation.alpha.to   = 0;
-      this._text01.animation.duration   = 3000;
+      this._text01.animation.duration   = 500;
 
       this._text01.run('stage2', this.app.ticker);
 
