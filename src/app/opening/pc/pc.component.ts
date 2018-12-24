@@ -114,9 +114,9 @@ export class PcComponent implements OnInit {
   stage3() {
     this._rect01 = this.pixiService.rect();
 
-    this._rect01.style.width  = 100;
-    this._rect01.style.height = 100;
-    this._rect01.style.color  = '0x000000';
+    this._rect01.style.width  = window.innerWidth;
+    this._rect01.style.height = window.innerHeight;
+    this._rect01.style.color  = '0xDD0031';
     this._rect01.position.x   = 0;
     this._rect01.position.y   = 0;
 

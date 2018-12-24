@@ -226,14 +226,14 @@ export class PixiRect {
   put(stage) {
     const graphics = new PIXI.Graphics();
 
+    graphics.beginFill(this.style.color);
+
     const rect = graphics.drawRect(
       this.position.x,
       this.position.y,
       this.style.width,
       this.style.height
     );
-
-    rect.fill = this.style.color;
 
     // Add Stage
     stage.addChild(rect);
