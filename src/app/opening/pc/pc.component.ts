@@ -14,6 +14,7 @@ export class PcComponent implements OnInit {
 
   private _el: HTMLElement;
   private _text01: PixiText;
+  private _rect01: any;
 
   constructor(
     el: ElementRef,
@@ -49,6 +50,7 @@ export class PcComponent implements OnInit {
           this.stage2();
           break;
         case 'stage2_ended':
+          this.stage3();
           break;
       }
     });
@@ -107,6 +109,18 @@ export class PcComponent implements OnInit {
       this._text01.run('stage2', this.app.ticker);
 
     }, 2000);
+  }
+
+  stage3() {
+    this._rect01 = this.pixiService.rect();
+
+    this._rect01.style.width  = 100;
+    this._rect01.style.height = 100;
+    this._rect01.style.color  = '0x000000';
+    this._rect01.position.x   = 0;
+    this._rect01.position.y   = 0;
+
+    this._rect01.put(this.app.stage);
   }
 
   /**

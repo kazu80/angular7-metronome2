@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import {Observable, Subject} from 'rxjs';
-import {tick} from '@angular/core/testing';
 
 declare var PIXI: any;
 
@@ -14,6 +13,8 @@ export class PixiStyle {
   private _fontFamily: string;
   private _color: string;
   private _align: string;
+  private _width: number;
+  private _height: number;
 
   set color(value: string) {
     this._color = value;
@@ -53,6 +54,22 @@ export class PixiStyle {
 
   set align(value: string) {
     this._align = value;
+  }
+
+  get height(): number {
+    return this._height;
+  }
+
+  set height(value: number) {
+    this._height = value;
+  }
+
+  get width(): number {
+    return this._width;
+  }
+
+  set width(value: number) {
+    this._width = value;
   }
 }
 
@@ -184,6 +201,42 @@ export class PixiAnimation {
 
   set delay(value: number) {
     this._delay = value;
+  }
+}
+
+export class PixiRect {
+  _position: PixiPosition;
+  _style: PixiStyle;
+
+  constructor(
+    private pixiService: PixiService
+  ) {
+    this._position = new PixiPosition();
+    this._style    = new PixiStyle();
+  }
+
+  get style() {
+    return this._style;
+  }
+
+  get position() {
+    return this._position;
+  }
+
+  put(stage) {
+    const graphics = new PIXI.Graphics();
+
+    const rect = graphics.drawRect(
+      this.position.x,
+      this.position.y,
+      this.style.width,
+      this.style.height
+    );
+
+    rect.fill = this.style.color;
+
+    // Add Stage
+    stage.addChild(rect);
   }
 }
 
@@ -352,5 +405,9 @@ export class PixiService {
 
   text (): PixiText {
     return new PixiText(this);
+  }
+
+  rect(): PixiRect {
+    return new PixiRect(this);
   }
 }
