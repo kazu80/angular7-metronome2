@@ -113,11 +113,37 @@ export class PixiAnimationBlur extends PixiAnimationBase {
   }
 }
 
-export class PixiAnimationPosition extends PixiAnimationBase {
+export class PixiAnimationPositionX extends PixiAnimationBase {
   constructor() {
     super();
     this.from = 0;
     this.to   = 0;
+  }
+}
+
+export class PixiAnimationPositionY extends PixiAnimationBase {
+  constructor() {
+    super();
+    this.from = 0;
+    this.to   = 0;
+  }
+}
+
+export class PixiAnimationPosition {
+  private _x: PixiAnimationPositionX;
+  private _y: PixiAnimationPositionY;
+
+  constructor() {
+    this._x = new PixiAnimationPositionX();
+    this._y = new PixiAnimationPositionY();
+  }
+
+  get y(): PixiAnimationPositionY {
+    return this._y;
+  }
+
+  get x(): PixiAnimationPositionX {
+    return this._x;
   }
 }
 
@@ -166,13 +192,15 @@ export class PixiAnchor {
 export class PixiAnimation {
   _alpha: PixiAnimationAlpha;
   _blur: PixiAnimationBlur;
+  _position: PixiAnimationPosition;
   _duration: number;
   _delay: number;
 
   constructor() {
-    this._alpha = new PixiAnimationAlpha();
-    this._blur  = new PixiAnimationBlur();
-    this._delay = 0;
+    this._alpha    = new PixiAnimationAlpha();
+    this._blur     = new PixiAnimationBlur();
+    this._position = new PixiAnimationPosition();
+    this._delay    = 0;
   }
 
   get alpha() {
@@ -198,17 +226,23 @@ export class PixiAnimation {
   set delay(value: number) {
     this._delay = value;
   }
+
+  get position() {
+    return this._position;
+  }
 }
 
 export class PixiRect {
   _position: PixiPosition;
   _style: PixiStyle;
+  _animation: PixiAnimation;
 
   constructor(
     private pixiService: PixiService
   ) {
-    this._position = new PixiPosition();
-    this._style    = new PixiStyle();
+    this._position  = new PixiPosition();
+    this._style     = new PixiStyle();
+    this._animation = new PixiAnimation();
   }
 
   get style() {
@@ -217,6 +251,10 @@ export class PixiRect {
 
   get position() {
     return this._position;
+  }
+
+  get animation() {
+    return this._animation;
   }
 
   put(stage) {

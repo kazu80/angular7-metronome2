@@ -120,6 +120,10 @@ export class PcComponent implements OnInit {
     this._rect01.position.x   = 0;
     this._rect01.position.y   = window.innerHeight * -1;
 
+    this._rect01.an;
+    this._rect01.animation.position.y.from = 0;
+    this._rect01.animation.position.y.to   = 0;
+
     this._rect01.put(this.app.stage);
   }
 
