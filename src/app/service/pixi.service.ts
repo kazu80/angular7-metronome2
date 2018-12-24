@@ -73,13 +73,11 @@ export class PixiStyle {
   }
 }
 
-export class PixiAnimationAlpha {
+export class PixiAnimationBase {
   private _from: number;
   private _to: number;
 
   constructor() {
-    this._from = 1;
-    this._to   = 1;
   }
 
   get from(): number {
@@ -99,29 +97,27 @@ export class PixiAnimationAlpha {
   }
 }
 
-export class PixiAnimationBlur {
-  _from: number;
-  _to: number;
-
+export class PixiAnimationAlpha extends PixiAnimationBase {
   constructor() {
-    this._from = 0;
-    this._to   = 0;
+    super();
+    this.from = 1;
+    this.to   = 1;
   }
+}
 
-  get from(): number {
-    return this._from;
+export class PixiAnimationBlur extends PixiAnimationBase {
+  constructor() {
+    super();
+    this.from = 0;
+    this.to   = 0;
   }
+}
 
-  set from(value: number) {
-    this._from = value;
-  }
-
-  get to(): number {
-    return this._to;
-  }
-
-  set to(value: number) {
-    this._to = value;
+export class PixiAnimationPosition extends PixiAnimationBase {
+  constructor() {
+    super();
+    this.from = 0;
+    this.to   = 0;
   }
 }
 
