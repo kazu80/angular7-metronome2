@@ -235,9 +235,12 @@ export class PixiAnimation {
 /** methods **/
 
 export class PixiMethodBase {
-  _position: PixiPosition;
-  _style: PixiStyle;
-  _animation: PixiAnimation;
+  private _position: PixiPosition;
+  private _style: PixiStyle;
+  private _animation: PixiAnimation;
+  private _handlerTicker: any;
+  public instanceText: any;
+  public instanceBlur: any;
 
   constructor(
     private _pixiService: PixiService
@@ -263,6 +266,14 @@ export class PixiMethodBase {
     return this._animation;
   }
 
+  get handlerTicker() {
+    return this._handlerTicker;
+  }
+
+  set handlerTicker(value: Object) {
+    this._handlerTicker = value;
+  }
+
   fps(ticker: any) {
     return ticker.FPS;
   }
@@ -273,6 +284,65 @@ export class PixiMethodBase {
 
   FPSDuration(fps: number) {
     return this.animation.duration * (fps / 1000);
+  }
+
+  run(stage, ticker: any) {
+    const fps = this.fps(ticker);
+
+    let delay       = this.delay(ticker.FPS);
+    let renderedFPS = 0;
+
+    this.handlerTicker = (deltaTime) => {
+      const durationFPS = this.animation.duration * (fps / 1000);
+      const alpha       = Math.abs(this.animation.alpha.from - this.animation.alpha.to) / durationFPS;
+      const blur        = Math.abs(this.animation.blur.from - this.animation.blur.to) / durationFPS;
+
+      // Duration
+      if (renderedFPS >= durationFPS) {
+        // Animation が終わったらTickerを消す
+        ticker.remove(this._handlerTicker);
+
+        renderedFPS = 0;
+
+        // 終了イベントの発火
+        // console.log(`${stage}_ended`);
+        this.pixiService.setMode(`${stage}_ended`);
+        return;
+      }
+
+      // Delay
+      if (delay > 0) {
+        delay--;
+        return;
+      }
+
+      // Animation Alpha
+      if (this.instanceText !== undefined) {
+        if (this.instanceText.alpha <= this.animation.alpha.to) {
+          this.instanceText.alpha += alpha;
+        }
+
+        if (this.instanceText.alpha > this.animation.alpha.to) {
+          this.instanceText.alpha -= alpha;
+        }
+      }
+
+      // Animation Blur
+      if (this.instanceBlur !== undefined) {
+        if (this.instanceBlur.blur > this.animation.blur.to) {
+          this.instanceBlur.blur -= blur;
+        }
+
+        if (this.instanceBlur.blur <= this.animation.blur.to) {
+          this.instanceBlur.blur += blur;
+        }
+      }
+
+      renderedFPS++;
+    };
+
+    // Ticker登録
+    ticker.add(this.handlerTicker);
   }
 }
 
@@ -348,26 +418,17 @@ export class PixiRect extends PixiMethodBase {
  * Text
  */
 export class PixiText extends PixiMethodBase {
-  _config: PixiConfig;
   _anchor: PixiAnchor;
-  private _instanceText: any;
-  private _instanceBlur: any;
-  private _handlerTicker: any;
-
   _value: string;
 
   constructor(pixiService: PixiService) {
     super(pixiService);
 
-    this._config = {
-      'value': '',
-    };
-
     this._anchor = new PixiAnchor();
   }
 
   get pixiText() {
-    return this._instanceText;
+    return this.instanceText;
   }
 
   set value (value: string) {
@@ -413,63 +474,8 @@ export class PixiText extends PixiMethodBase {
     stage.addChild(text);
 
     // Save instance
-    this._instanceText = text;
-    this._instanceBlur = filterBlur;
-  }
-
-  run(stage, ticker: any) {
-    const fps = this.fps(ticker);
-
-    let delay = this.delay(ticker.FPS);
-    let renderedFPS = 0;
-
-    this._handlerTicker = (deltaTime) => {
-      const durationFPS = this.animation.duration * (fps / 1000);
-      const alpha = Math.abs(this.animation.alpha.from - this.animation.alpha.to) / durationFPS;
-      const blur = Math.abs(this.animation.blur.from - this.animation.blur.to) / durationFPS;
-
-      // Duration
-      if (renderedFPS >= durationFPS) {
-        // Animation が終わったらTickerを消す
-        ticker.remove(this._handlerTicker);
-
-        renderedFPS = 0;
-
-        // 終了イベントの発火
-        this.pixiService.setMode(`${stage}_ended`);
-        return;
-      }
-
-      // Delay
-      if (delay > 0) {
-        delay--;
-        return;
-      }
-
-      // Animation Alpha
-      if (this._instanceText.alpha <= this.animation.alpha.to) {
-        this._instanceText.alpha += alpha;
-      }
-
-      if (this._instanceText.alpha > this.animation.alpha.to) {
-        this._instanceText.alpha -= alpha;
-      }
-
-      // Animation Blur
-      if (this._instanceBlur.blur > this.animation.blur.to) {
-        this._instanceBlur.blur -= blur;
-      }
-
-      if (this._instanceBlur.blur <= this.animation.blur.to) {
-        this._instanceBlur.blur += blur;
-      }
-
-      renderedFPS++;
-    };
-
-    // Ticker登録
-    ticker.add(this._handlerTicker);
-
+    this.instanceText = text;
+    this.instanceBlur = filterBlur;
   }
 }
 
