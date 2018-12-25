@@ -262,6 +262,18 @@ export class PixiMethodBase {
   get animation() {
     return this._animation;
   }
+
+  fps(ticker: any) {
+    return ticker.FPS;
+  }
+
+  delay(fps: number) {
+    return this.animation.delay * (fps / 1000);
+  }
+
+  FPSDuration(fps: number) {
+    return this.animation.duration * (fps / 1000);
+  }
 }
 
 export class PixiRect extends PixiMethodBase {
@@ -285,6 +297,39 @@ export class PixiRect extends PixiMethodBase {
     // Add Stage
     stage.addChild(rect);
   }
+
+  ended(stage) {
+    // 終了イベントの発火
+    this.pixiService.setMode(`${stage}_ended`);
+  }
+
+  run(stage, ticker: any) {
+    const fps = this.fps(ticker);
+    let delay = this.delay(fps);
+
+    let renderedFPS = 0;
+    ticker.add((deltaTime) => {
+      const durationFPS = this.FPSDuration(fps);
+
+      if (renderedFPS >= durationFPS) {
+        ticker.stop();
+
+        renderedFPS = 0;
+
+        this.ended(stage);
+        return;
+      }
+
+
+      // Delay
+      if (delay > 0) {
+        delay--;
+        return;
+      }
+
+      renderedFPS++;
+    });
+  }
 }
 
 export class PixiText extends PixiMethodBase {
@@ -292,7 +337,7 @@ export class PixiText extends PixiMethodBase {
   _anchor: PixiAnchor;
   private _instanceText: any;
   private _instanceBlur: any;
-  private _stage: number;
+  private _isTickerCreated: boolean;
 
   _value: string;
 
@@ -303,7 +348,8 @@ export class PixiText extends PixiMethodBase {
       'value': '',
     };
 
-    this._stage  = 0;
+    this._isTickerCreated = false;
+
     this._anchor = new PixiAnchor();
   }
 
@@ -358,14 +404,21 @@ export class PixiText extends PixiMethodBase {
     this._instanceBlur = filterBlur;
   }
 
-  run(name, ticker: any) {
-    const fps = ticker.FPS;
-
-    let delay = this.animation.delay * (ticker.FPS / 1000);
+  run(stage, ticker: any) {
+    const fps = this.fps(ticker);
+    let delay = this.delay(ticker.FPS);
 
     ticker.start();
 
-    if (name === 'stage1') {
+    /**
+     * ticker.add()は、初回のみにするため
+     * stage2では、stage1で止めたtickerをstart()するだけでよい
+     */
+    if (this._isTickerCreated === false) {
+
+      // ticker addしました
+      this._isTickerCreated = true;
+
       let renderedFPS = 0;
       ticker.add((deltaTime) => {
         const durationFPS = this.animation.duration * (fps / 1000);
@@ -379,8 +432,7 @@ export class PixiText extends PixiMethodBase {
           renderedFPS = 0;
 
           // 終了イベントの発火
-          this._stage += 1;
-          this.pixiService.setMode(`stage${this._stage}_ended`);
+          this.pixiService.setMode(`${stage}_ended`);
           return;
         }
 
