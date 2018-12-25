@@ -276,10 +276,16 @@ export class PixiMethodBase {
   }
 }
 
+/**
+ * Rect
+ */
 export class PixiRect extends PixiMethodBase {
+  private _isTickerCreated: boolean;
 
   constructor(pixiService: PixiService) {
     super(pixiService);
+
+    this._isTickerCreated = false;
   }
 
   put(stage) {
@@ -307,31 +313,40 @@ export class PixiRect extends PixiMethodBase {
     const fps = this.fps(ticker);
     let delay = this.delay(fps);
 
-    let renderedFPS = 0;
-    ticker.add((deltaTime) => {
-      const durationFPS = this.FPSDuration(fps);
+    if (this._isTickerCreated === false) {
 
-      if (renderedFPS >= durationFPS) {
-        ticker.stop();
+      this._isTickerCreated = true;
 
-        renderedFPS = 0;
+      let renderedFPS = 0;
 
-        this.ended(stage);
-        return;
-      }
+      ticker.add((deltaTime) => {
+        const durationFPS = this.FPSDuration(fps);
+
+        if (renderedFPS >= durationFPS) {
+          ticker.stop();
+
+          renderedFPS = 0;
+
+          this.ended(stage);
+          return;
+        }
 
 
-      // Delay
-      if (delay > 0) {
-        delay--;
-        return;
-      }
+        // Delay
+        if (delay > 0) {
+          delay--;
+          return;
+        }
 
-      renderedFPS++;
-    });
+        renderedFPS++;
+      });
+    }
   }
 }
 
+/**
+ * Text
+ */
 export class PixiText extends PixiMethodBase {
   _config: PixiConfig;
   _anchor: PixiAnchor;
@@ -393,8 +408,8 @@ export class PixiText extends PixiMethodBase {
 
     // Blur
     const filterBlur = new PIXI.filters.BlurFilter();
-    filterBlur.blur = this.animation.blur.from;
-    text.filters = [filterBlur];
+    filterBlur.blur  = this.animation.blur.from;
+    text.filters     = [filterBlur];
 
     // Add Stage
     stage.addChild(text);
@@ -409,6 +424,7 @@ export class PixiText extends PixiMethodBase {
     let delay = this.delay(ticker.FPS);
 
     ticker.start();
+    // console.log(stage);
 
     /**
      * ticker.add()は、初回のみにするため
@@ -425,6 +441,9 @@ export class PixiText extends PixiMethodBase {
         const alpha       = Math.abs(this.animation.alpha.from - this.animation.alpha.to) / durationFPS;
         const blur        = Math.abs(this.animation.blur.from - this.animation.blur.to) / durationFPS;
 
+        // console.log(renderedFPS);
+
+
         // Duration
         if (renderedFPS >= durationFPS) {
           ticker.stop();
@@ -432,6 +451,7 @@ export class PixiText extends PixiMethodBase {
           renderedFPS = 0;
 
           // 終了イベントの発火
+          console.log(`${stage}_ended`);
           this.pixiService.setMode(`${stage}_ended`);
           return;
         }

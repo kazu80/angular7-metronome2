@@ -50,7 +50,7 @@ export class PcComponent implements OnInit {
           this.stage2();
           break;
         case 'stage2_ended':
-          this.stage3();
+          // this.stage3();
           break;
       }
     });
