@@ -232,17 +232,23 @@ export class PixiAnimation {
   }
 }
 
-export class PixiRect {
+/** methods **/
+
+export class PixiMethodBase {
   _position: PixiPosition;
   _style: PixiStyle;
   _animation: PixiAnimation;
 
   constructor(
-    private pixiService: PixiService
+    private _pixiService: PixiService
   ) {
-    this._position  = new PixiPosition();
     this._style     = new PixiStyle();
     this._animation = new PixiAnimation();
+    this._position  = new PixiPosition();
+  }
+
+  get pixiService() {
+    return this._pixiService;
   }
 
   get style() {
@@ -255,6 +261,13 @@ export class PixiRect {
 
   get animation() {
     return this._animation;
+  }
+}
+
+export class PixiRect extends PixiMethodBase {
+
+  constructor(pixiService: PixiService) {
+    super(pixiService);
   }
 
   put(stage) {
@@ -274,11 +287,8 @@ export class PixiRect {
   }
 }
 
-export class PixiText {
+export class PixiText extends PixiMethodBase {
   _config: PixiConfig;
-  _style: PixiStyle;
-  _animation: PixiAnimation;
-  _position: PixiPosition;
   _anchor: PixiAnchor;
   private _instanceText: any;
   private _instanceBlur: any;
@@ -286,19 +296,15 @@ export class PixiText {
 
   _value: string;
 
-  constructor(
-    private pixiService: PixiService
-  ) {
+  constructor(pixiService: PixiService) {
+    super(pixiService);
+
     this._config = {
       'value': '',
     };
 
-    this._stage = 0;
-
-    this._style     = new PixiStyle();
-    this._animation = new PixiAnimation();
-    this._position  = new PixiPosition();
-    this._anchor    = new PixiAnchor();
+    this._stage  = 0;
+    this._anchor = new PixiAnchor();
   }
 
   get pixiText() {
@@ -315,18 +321,6 @@ export class PixiText {
 
   set text (value: string) {
     this._value = value;
-  }
-
-  get style () {
-    return this._style;
-  }
-
-  get animation() {
-    return this._animation;
-  }
-
-  get position() {
-    return this._position;
   }
 
   get anchor() {
