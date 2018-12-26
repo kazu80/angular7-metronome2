@@ -242,6 +242,7 @@ export class PixiMethodBase {
   private _handlerTicker: any;
   public instanceText: any;
   public instanceBlur: any;
+  public instanceRect: any;
 
   constructor(
     private _pixiService: PixiService
@@ -302,6 +303,7 @@ export class PixiMethodBase {
       const durationFPS = this.animation.duration * (fps / 1000);
       const alpha       = Math.abs(this.animation.alpha.from - this.animation.alpha.to) / durationFPS;
       const blur        = Math.abs(this.animation.blur.from - this.animation.blur.to) / durationFPS;
+      const positionY = Math.abs(this.animation.position.y.from - this.animation.position.y.to) / durationFPS;
 
       // Duration
       if (renderedFPS >= durationFPS) {
@@ -311,7 +313,7 @@ export class PixiMethodBase {
         renderedFPS = 0;
 
         // 終了イベントの発火
-        // console.log(`${stage}_ended`);
+        console.log(`${stage}_ended`);
         this.pixiService.setMode(`${stage}_ended`);
         return;
       }
@@ -341,6 +343,19 @@ export class PixiMethodBase {
 
         if (this.instanceBlur.blur <= this.animation.blur.to) {
           this.instanceBlur.blur += blur;
+        }
+      }
+
+      // Rect
+      if (this.instanceRect !== undefined) {
+        if (this.instanceRect.position.y <= this.animation.position.y.to) {
+
+          // Rectの高さ以上にY移動がある場合は、RectのYは高さと同じにする
+          if (this.instanceRect.y + positionY > this.style.height) {
+            this.instanceRect.y = this.style.height;
+          } else {
+            this.instanceRect.y += positionY;
+          }
         }
       }
 
@@ -378,45 +393,14 @@ export class PixiRect extends PixiMethodBase {
 
     // Add Stage
     stage.addChild(rect);
+
+    // Rectのインスタンスを登録する
+    this.instanceRect = rect;
   }
 
   ended(stage) {
     // 終了イベントの発火
     this.pixiService.setMode(`${stage}_ended`);
-  }
-
-  run(stage, ticker: any) {
-    const fps = this.fps(ticker);
-    let delay = this.delay(fps);
-
-    if (this._isTickerCreated === false) {
-
-      this._isTickerCreated = true;
-
-      let renderedFPS = 0;
-
-      ticker.add((deltaTime) => {
-        const durationFPS = this.FPSDuration(fps);
-
-        if (renderedFPS >= durationFPS) {
-          ticker.stop();
-
-          renderedFPS = 0;
-
-          this.ended(stage);
-          return;
-        }
-
-
-        // Delay
-        if (delay > 0) {
-          delay--;
-          return;
-        }
-
-        renderedFPS++;
-      });
-    }
   }
 }
 

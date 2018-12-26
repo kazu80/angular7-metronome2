@@ -50,7 +50,7 @@ export class PcComponent implements OnInit {
           this.stage2();
           break;
         case 'stage2_ended':
-          // this.stage3();
+          this.stage3();
           break;
       }
     });
@@ -87,7 +87,7 @@ export class PcComponent implements OnInit {
     this._text01.animation.blur.from  = 5;
     this._text01.animation.blur.to    = 0;
     this._text01.animation.duration   = 500;
-    this._text01.animation.delay      = 1000;
+    this._text01.animation.delay = 800;
 
     this._text01.position.x = window.innerWidth * 0.5 - 20;
     this._text01.position.y = window.innerHeight * 0.5;
@@ -104,11 +104,11 @@ export class PcComponent implements OnInit {
       this._text01.animation.alpha.to   = 0;
       this._text01.animation.blur.from  = 0;
       this._text01.animation.blur.to    = 5;
-      this._text01.animation.duration   = 500;
+      this._text01.animation.duration = 400;
 
       this._text01.run('stage2', this.app.ticker);
 
-    }, 2000);
+    }, 1000);
   }
 
   stage3() {
@@ -122,9 +122,11 @@ export class PcComponent implements OnInit {
 
     this._rect01.animation.delay           = 1000;
     this._rect01.animation.position.y.from = 0;
-    this._rect01.animation.position.y.to   = 0;
+    this._rect01.animation.position.y.to = window.innerHeight;
+    this._rect01.animation.duration = 400;
 
     this._rect01.put(this.app.stage);
+    this._rect01.run('stage3', this.app.ticker);
   }
 
   /**
