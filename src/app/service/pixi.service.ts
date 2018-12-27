@@ -303,7 +303,7 @@ export class PixiMethodBase {
       const durationFPS = this.animation.duration * (fps / 1000);
       const alpha       = Math.abs(this.animation.alpha.from - this.animation.alpha.to) / durationFPS;
       const blur        = Math.abs(this.animation.blur.from - this.animation.blur.to) / durationFPS;
-      const positionY = Math.abs(this.animation.position.y.from - this.animation.position.y.to) / durationFPS;
+      const positionY   = Math.abs(this.animation.position.y.from - this.animation.position.y.to) / durationFPS;
 
       // Duration
       if (renderedFPS >= durationFPS) {
@@ -348,13 +348,25 @@ export class PixiMethodBase {
 
       // Rect
       if (this.instanceRect !== undefined) {
-        if (this.instanceRect.position.y <= this.animation.position.y.to) {
+
+        // 下移動か、上移動かを判定
+        const isAnimationDown = this.animation.position.y.to > this.animation.position.y.from;
+
+        if (isAnimationDown === true) {
 
           // Rectの高さ以上にY移動がある場合は、RectのYは高さと同じにする
           if (this.instanceRect.y + positionY > this.style.height) {
             this.instanceRect.y = this.style.height;
           } else {
             this.instanceRect.y += positionY;
+          }
+        } else {
+
+          // Rectの高さ以上にY移動がある場合（下移動）は、RectのYは高さと同じにする
+          if (this.instanceRect.y - positionY < this.style.height * -1) {
+            this.instanceRect.y = this.style.height * -1;
+          } else {
+            this.instanceRect.y -= positionY;
           }
         }
       }

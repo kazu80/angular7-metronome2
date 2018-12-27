@@ -1,6 +1,6 @@
 import {Component, ElementRef, OnInit} from '@angular/core';
 import {MainService} from '../../service/main.service';
-import {PixiService, PixiText} from '../../service/pixi.service';
+import {PixiRect, PixiService, PixiText} from '../../service/pixi.service';
 
 declare var PIXI: any;
 
@@ -13,8 +13,11 @@ export class PcComponent implements OnInit {
   public app: any;
 
   private _el: HTMLElement;
+
+  // stageをまたいだアニメーションに使用する
   private _text01: PixiText;
-  private _rect01: any;
+  private _rect01: PixiRect;
+  private _rect02: PixiRect;
 
   constructor(
     el: ElementRef,
@@ -113,20 +116,40 @@ export class PcComponent implements OnInit {
 
   stage3() {
     this._rect01 = this.pixiService.rect();
+    this._rect02 = this.pixiService.rect();
 
+    // Width / Height
     this._rect01.style.width  = window.innerWidth * 0.5;
     this._rect01.style.height = window.innerHeight;
-    this._rect01.style.color  = '0xDD0031';
-    this._rect01.position.x   = 0;
-    this._rect01.position.y   = window.innerHeight * -1;
+    this._rect02.style.width  = window.innerWidth * 0.5;
+    this._rect02.style.height = window.innerHeight;
 
+    // Color
+    this._rect01.style.color = '0xDD0031';
+    this._rect02.style.color = '0xC3002F';
+
+    // Position
+    this._rect01.position.x = 0;
+    this._rect01.position.y = window.innerHeight * -1;
+    this._rect02.position.x = window.innerWidth * 0.5;
+    this._rect02.position.y = window.innerHeight;
+
+    // Animation
     this._rect01.animation.delay           = 1000;
     this._rect01.animation.position.y.from = 0;
-    this._rect01.animation.position.y.to = window.innerHeight;
-    this._rect01.animation.duration = 400;
+    this._rect01.animation.position.y.to   = window.innerHeight;
+    this._rect01.animation.duration        = 400;
 
+    this._rect02.animation.delay           = 1000;
+    this._rect02.animation.position.y.from = window.innerHeight;
+    this._rect02.animation.position.y.to   = 0;
+    this._rect02.animation.duration        = 400;
+
+    // Put / Run
     this._rect01.put(this.app.stage);
     this._rect01.run('stage3', this.app.ticker);
+    this._rect02.put(this.app.stage);
+    this._rect02.run('stage4', this.app.ticker);
   }
 
   /**
