@@ -240,9 +240,6 @@ export class PixiMethodBase {
   private _animation: PixiAnimation;
   private _anchor: PixiAnchor;
   private _handlerTicker: any;
-  public instanceText: any;
-  public instanceBlur: any;
-  public instanceRect: any;
   public instanceObject: any;
 
   constructor(
@@ -346,18 +343,8 @@ export class PixiMethodBase {
         }
       }
 
-      if (this.instanceText !== undefined) {
-        if (this.instanceText.alpha <= this.animation.alpha.to) {
-          this.instanceText.alpha += alpha;
-        }
-
-        if (this.instanceText.alpha > this.animation.alpha.to) {
-          this.instanceText.alpha -= alpha;
-        }
-      }
-
       // Animation Blur
-      if (this.instanceObject !== undefined && this.instanceObject.filters.length > 0) {
+      if (this.instanceObject !== undefined && this.instanceObject.filters !== null) {
         const instanceBlur = this.instanceObject.filters[0];
 
         if (instanceBlur) {
@@ -376,18 +363,8 @@ export class PixiMethodBase {
         }
       }
 
-      if (this.instanceBlur !== undefined) {
-        if (this.instanceBlur.blur > this.animation.blur.to) {
-          this.instanceBlur.blur -= blur;
-        }
-
-        if (this.instanceBlur.blur <= this.animation.blur.to) {
-          this.instanceBlur.blur += blur;
-        }
-      }
-
-      // Rect
-      if (this.instanceRect !== undefined) {
+      // Animation Move
+      if (this.instanceObject !== undefined) {
 
         // 下移動か、上移動かを判定
         const isAnimationDown = this.animation.position.y.to > this.animation.position.y.from;
@@ -395,18 +372,18 @@ export class PixiMethodBase {
         if (isAnimationDown === true) {
 
           // Rectの高さ以上にY移動がある場合は、RectのYは高さと同じにする
-          if (this.instanceRect.y + positionY > this.style.height) {
-            this.instanceRect.y = this.style.height;
+          if (this.instanceObject.y + positionY > this.style.height) {
+            this.instanceObject.y = this.style.height;
           } else {
-            this.instanceRect.y += positionY;
+            this.instanceObject.y += positionY;
           }
         } else {
 
           // Rectの高さ以上にY移動がある場合（下移動）は、RectのYは高さと同じにする
-          if (this.instanceRect.y - positionY < this.style.height * -1) {
-            this.instanceRect.y = this.style.height * -1;
+          if (this.instanceObject.y - positionY < this.style.height * -1) {
+            this.instanceObject.y = this.style.height * -1;
           } else {
-            this.instanceRect.y -= positionY;
+            this.instanceObject.y -= positionY;
           }
         }
       }
@@ -449,7 +426,7 @@ export class PixiImage extends PixiMethodBase {
 
     stage.addChild(img);
 
-    //
+    // インスタンスの保存
     this.instanceObject = img;
   }
 }
@@ -482,7 +459,7 @@ export class PixiRect extends PixiMethodBase {
     stage.addChild(rect);
 
     // Rectのインスタンスを登録する
-    this.instanceRect = rect;
+    this.instanceObject = rect;
   }
 
   ended(stage) {
@@ -536,8 +513,7 @@ export class PixiText extends PixiMethodBase {
     stage.addChild(text);
 
     // Save instance
-    this.instanceText = text;
-    this.instanceBlur = filterBlur;
+    this.instanceObject = text;
   }
 }
 
