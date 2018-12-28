@@ -380,6 +380,38 @@ export class PixiMethodBase {
 }
 
 /**
+ * Image
+ */
+export class PixiImage extends PixiMethodBase {
+  constructor(pixiService: PixiService) {
+    super(pixiService);
+  }
+
+  put(stage, path: string) {
+    const img = PIXI.Sprite.fromImage(path);
+
+    img.anchor.x = this.anchor.x;
+    img.anchor.y = this.anchor.y;
+
+    img.x = this.position.x;
+    img.y = this.position.y;
+
+    if (this.animation.alpha.from) {
+      img.alpha = this.animation.alpha.from;
+    }
+
+    // Blur
+    if (this.animation.blur.from) {
+      const filterBlur = new PIXI.filters.BlurFilter();
+      filterBlur.blur  = this.animation.blur.from;
+      img.filters      = [filterBlur];
+    }
+
+    stage.addChild(img);
+  }
+}
+
+/**
  * Rect
  */
 export class PixiRect extends PixiMethodBase {
@@ -488,5 +520,9 @@ export class PixiService {
 
   rect(): PixiRect {
     return new PixiRect(this);
+  }
+
+  image(): PixiImage {
+    return new PixiImage(this);
   }
 }

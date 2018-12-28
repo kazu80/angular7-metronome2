@@ -1,6 +1,6 @@
 import {Component, ElementRef, OnInit} from '@angular/core';
 import {MainService} from '../../service/main.service';
-import {PixiRect, PixiService, PixiText} from '../../service/pixi.service';
+import {PixiImage, PixiRect, PixiService, PixiText} from '../../service/pixi.service';
 
 declare var PIXI: any;
 
@@ -18,6 +18,7 @@ export class PcComponent implements OnInit {
   private _text01: PixiText;
   private _rect01: PixiRect;
   private _rect02: PixiRect;
+  private _image01: PixiImage;
 
   constructor(
     el: ElementRef,
@@ -54,6 +55,9 @@ export class PcComponent implements OnInit {
           break;
         case 'stage2_ended':
           this.stage3();
+          break;
+        case 'stage4_ended':
+          this.stage5();
           break;
       }
     });
@@ -150,6 +154,22 @@ export class PcComponent implements OnInit {
     this._rect01.run('stage3', this.app.ticker);
     this._rect02.put(this.app.stage);
     this._rect02.run('stage4', this.app.ticker);
+  }
+
+  stage5() {
+    this._image01 = this.pixiService.image();
+
+    this._image01.style.width  = 159;
+    this._image01.style.height = 208;
+
+    this._image01.position.x = window.innerWidth * 0.5;
+    this._image01.position.y = window.innerHeight * 0.5;
+
+    this._image01.anchor.x = 0.44;
+    this._image01.anchor.y = 0.5;
+
+    this._image01.put(this.app.stage, 'assets/image/pc/logo.png');
+    this._image01.run('stage5', this.app.ticker);
   }
 
   /**
