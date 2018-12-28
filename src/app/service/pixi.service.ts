@@ -243,6 +243,7 @@ export class PixiMethodBase {
   public instanceText: any;
   public instanceBlur: any;
   public instanceRect: any;
+  public instanceObject: any;
 
   constructor(
     private _pixiService: PixiService
@@ -325,6 +326,26 @@ export class PixiMethodBase {
       }
 
       // Animation Alpha
+      if (this.instanceObject !== undefined) {
+        const isPlus = this.animation.alpha.from < this.animation.alpha.to;
+
+        if (isPlus) {
+          this.instanceObject.alpha += alpha;
+        } else {
+          this.instanceObject.alpha -= alpha;
+        }
+
+        // alpha MAX値
+        if (this.instanceObject.alpha > 1) {
+          this.instanceObject.alpha = 1;
+        }
+
+        // alpha MIN値
+        if (this.instanceObject.alpha < 0) {
+          this.instanceObject.alpha = 0;
+        }
+      }
+
       if (this.instanceText !== undefined) {
         if (this.instanceText.alpha <= this.animation.alpha.to) {
           this.instanceText.alpha += alpha;
@@ -336,6 +357,25 @@ export class PixiMethodBase {
       }
 
       // Animation Blur
+      if (this.instanceObject !== undefined && this.instanceObject.filters.length > 0) {
+        const instanceBlur = this.instanceObject.filters[0];
+
+        if (instanceBlur) {
+          const isDown = this.animation.blur.from > this.animation.blur.to;
+
+          if (isDown) {
+            instanceBlur.blur -= blur;
+          } else {
+            instanceBlur.blur += blur;
+          }
+
+          // blur MIN値
+          if (instanceBlur.blur < 0) {
+            instanceBlur.blur = 0;
+          }
+        }
+      }
+
       if (this.instanceBlur !== undefined) {
         if (this.instanceBlur.blur > this.animation.blur.to) {
           this.instanceBlur.blur -= blur;
@@ -396,7 +436,7 @@ export class PixiImage extends PixiMethodBase {
     img.x = this.position.x;
     img.y = this.position.y;
 
-    if (this.animation.alpha.from) {
+    if (this.animation.alpha.from !== undefined) {
       img.alpha = this.animation.alpha.from;
     }
 
@@ -408,6 +448,9 @@ export class PixiImage extends PixiMethodBase {
     }
 
     stage.addChild(img);
+
+    //
+    this.instanceObject = img;
   }
 }
 

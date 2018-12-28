@@ -168,6 +168,13 @@ export class PcComponent implements OnInit {
     this._image01.anchor.x = 0.44;
     this._image01.anchor.y = 0.5;
 
+    this._image01.animation.alpha.from = 0;
+    this._image01.animation.alpha.to   = 1;
+    this._image01.animation.blur.from  = 5;
+    this._image01.animation.blur.to    = 0;
+    this._image01.animation.duration   = 500;
+    this._image01.animation.delay      = 0;
+
     this._image01.put(this.app.stage, 'assets/image/pc/logo.png');
     this._image01.run('stage5', this.app.ticker);
   }
