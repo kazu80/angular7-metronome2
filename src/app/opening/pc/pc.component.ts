@@ -16,6 +16,7 @@ export class PcComponent implements OnInit {
 
   // stageをまたいだアニメーションに使用する
   private _text01: PixiText;
+  private _text02: PixiText;
   private _rect01: PixiRect;
   private _rect02: PixiRect;
   private _image01: PixiImage;
@@ -58,6 +59,7 @@ export class PcComponent implements OnInit {
           break;
         case 'stage4_ended':
           this.stage5();
+          this.stage6();
           break;
       }
     });
@@ -163,7 +165,7 @@ export class PcComponent implements OnInit {
     this._image01.style.height = 208;
 
     this._image01.position.x = window.innerWidth * 0.5;
-    this._image01.position.y = window.innerHeight * 0.5;
+    this._image01.position.y = window.innerHeight * 0.5 - 60;
 
     this._image01.anchor.x = 0.44;
     this._image01.anchor.y = 0.5;
@@ -173,10 +175,34 @@ export class PcComponent implements OnInit {
     this._image01.animation.blur.from  = 5;
     this._image01.animation.blur.to    = 0;
     this._image01.animation.duration   = 500;
-    this._image01.animation.delay      = 0;
+    this._image01.animation.delay      = 800;
 
     this._image01.put(this.app.stage, 'assets/image/pc/logo.png');
     this._image01.run('stage5', this.app.ticker);
+  }
+
+  stage6() {
+    this._text02       = this.pixiService.text();
+    this._text02.value = 'METRONOME';
+
+    this._text02.style.fontSize   = '70px';
+    this._text02.style.fontWeight = 'bold';
+    this._text02.style.color      = '0xFFFFFF';
+
+    this._text02.animation.alpha.from = 0;
+    this._text02.animation.alpha.to   = 1;
+    this._text02.animation.blur.from  = 5;
+    this._text02.animation.blur.to    = 0;
+    this._text02.animation.duration   = 500;
+    this._text02.animation.delay      = 800;
+
+    this._text02.position.x = window.innerWidth * 0.5;
+    this._text02.position.y = window.innerHeight * 0.5 + 101 + 13;
+    this._text02.anchor.x   = 0.5;
+    this._text02.anchor.y   = 0.5;
+
+    this._text02.put(this.app.stage);
+    this._text02.run('stage6', this.app.ticker);
   }
 
   /**
