@@ -17,6 +17,7 @@ export class PcComponent implements OnInit {
   // stageをまたいだアニメーションに使用する
   private _text01: PixiText;
   private _text02: PixiText;
+  private _text03: PixiText;
   private _rect01: PixiRect;
   private _rect02: PixiRect;
   private _image01: PixiImage;
@@ -60,6 +61,7 @@ export class PcComponent implements OnInit {
         case 'stage4_ended':
           this.stage5();
           this.stage6();
+          this.stage7();
           break;
       }
     });
@@ -203,6 +205,30 @@ export class PcComponent implements OnInit {
 
     this._text02.put(this.app.stage);
     this._text02.run('stage6', this.app.ticker);
+  }
+
+  stage7() {
+    this._text03       = this.pixiService.text();
+    this._text03.value = 'CLICK';
+
+    this._text03.style.fontSize   = '36px';
+    this._text03.style.fontWeight = 'bold';
+    this._text03.style.color      = '0xFFFFFF';
+
+    this._text03.animation.alpha.from = 0;
+    this._text03.animation.alpha.to   = 1;
+    this._text03.animation.blur.from  = 5;
+    this._text03.animation.blur.to    = 0;
+    this._text03.animation.duration   = 500;
+    this._text03.animation.delay      = 800 + 500;
+
+    this._text03.position.x = window.innerWidth * 0.5;
+    this._text03.position.y = window.innerHeight * 0.5 + 101 + 13 + 101;
+    this._text03.anchor.x   = 0.5;
+    this._text03.anchor.y   = 0.5;
+
+    this._text03.put(this.app.stage);
+    this._text03.run('stage7', this.app.ticker);
   }
 
   /**
