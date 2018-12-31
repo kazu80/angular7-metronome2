@@ -227,8 +227,38 @@ export class PcComponent implements OnInit {
     this._text03.anchor.x   = 0.5;
     this._text03.anchor.y   = 0.5;
 
+    // Event
+    this._text03.event.click = () => {
+      this.stage8();
+    };
+
     this._text03.put(this.app.stage);
     this._text03.run('stage7', this.app.ticker);
+  }
+
+  stage8() {
+    this._image01.animation.position.y.from = window.innerHeight * 0.5 - 60;
+    this._image01.animation.position.y.to   = window.innerHeight * 0.5 - 60 - 90;
+    this._image01.animation.duration        = 400;
+    this._image01.animation.delay           = 0;
+
+    this._image01.run('stage8', this.app.ticker);
+
+    this._text02.animation.position.y.from = window.innerHeight * 0.5 + 114;
+    this._text02.animation.position.y.to   = window.innerHeight * 0.5 + 114 - 90;
+    this._text02.animation.duration        = 400;
+    this._text02.animation.delay           = 0;
+
+    this._text02.run('stage8', this.app.ticker);
+
+    this._text03.animation.alpha.from = 1;
+    this._text03.animation.alpha.to   = 0;
+    this._text03.animation.blur.from  = 0;
+    this._text03.animation.blur.to    = 5;
+    this._text03.animation.duration   = 400;
+    this._text03.animation.delay      = 0;
+
+    this._text03.run('stage8', this.app.ticker);
   }
 
   /**

@@ -232,6 +232,18 @@ export class PixiAnimation {
   }
 }
 
+export class PixiEvent {
+  private _click: object;
+
+  get click(): object {
+    return this._click;
+  }
+
+  set click(value: object) {
+    this._click = value;
+  }
+}
+
 /** methods **/
 
 export class PixiMethodBase {
@@ -239,6 +251,7 @@ export class PixiMethodBase {
   private _style: PixiStyle;
   private _animation: PixiAnimation;
   private _anchor: PixiAnchor;
+  private _event: PixiEvent;
   private _handlerTicker: any;
   public instanceObject: any;
 
@@ -249,6 +262,7 @@ export class PixiMethodBase {
     this._animation = new PixiAnimation();
     this._position  = new PixiPosition();
     this._anchor    = new PixiAnchor();
+    this._event     = new PixiEvent();
   }
 
   get pixiService() {
@@ -269,6 +283,10 @@ export class PixiMethodBase {
 
   get anchor() {
     return this._anchor;
+  }
+
+  get event() {
+    return this._event;
   }
 
   get handlerTicker() {
@@ -508,6 +526,15 @@ export class PixiText extends PixiMethodBase {
     const filterBlur = new PIXI.filters.BlurFilter();
     filterBlur.blur  = this.animation.blur.from;
     text.filters     = [filterBlur];
+
+    // Event
+    if (this.event.click !== undefined) {
+      // タッチイベントの有効化
+      text.interactive = true;
+
+      // イベント登録
+      text.on('click', this.event.click);
+    }
 
     // Add Stage
     stage.addChild(text);
