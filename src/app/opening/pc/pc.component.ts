@@ -18,9 +18,11 @@ export class PcComponent implements OnInit {
   private _text01: PixiText;
   private _text02: PixiText;
   private _text03: PixiText;
+  private _text04: PixiText;
   private _rect01: PixiRect;
   private _rect02: PixiRect;
   private _image01: PixiImage;
+  private _image02: PixiImage;
 
   constructor(
     el: ElementRef,
@@ -238,14 +240,14 @@ export class PcComponent implements OnInit {
 
   stage8() {
     this._image01.animation.position.y.from = window.innerHeight * 0.5 - 60;
-    this._image01.animation.position.y.to   = window.innerHeight * 0.5 - 60 - 90;
+    this._image01.animation.position.y.to   = window.innerHeight * 0.5 - 60 - 120;
     this._image01.animation.duration        = 400;
     this._image01.animation.delay           = 0;
 
     this._image01.run('stage8', this.app.ticker);
 
     this._text02.animation.position.y.from = window.innerHeight * 0.5 + 114;
-    this._text02.animation.position.y.to   = window.innerHeight * 0.5 + 114 - 90;
+    this._text02.animation.position.y.to   = window.innerHeight * 0.5 + 114 - 120;
     this._text02.animation.duration        = 400;
     this._text02.animation.delay           = 0;
 
@@ -259,6 +261,46 @@ export class PcComponent implements OnInit {
     this._text03.animation.delay      = 0;
 
     this._text03.run('stage8', this.app.ticker);
+
+    this._image02                      = this.pixiService.image();
+    this._image02.style.width          = 150;
+    this._image02.style.height         = 150;
+    this._image02.position.x           = window.innerWidth * 0.5;
+    this._image02.position.y           = window.innerHeight * 0.5 + 150;
+    this._image02.anchor.x             = 0.5;
+    this._image02.anchor.y             = 0.5;
+    this._image02.animation.alpha.from = 0;
+    this._image02.animation.alpha.to   = 1;
+    this._image02.animation.blur.from  = 5;
+    this._image02.animation.blur.to    = 0;
+    this._image02.animation.duration   = 500;
+    this._image02.animation.delay      = 800;
+
+    this._image02.put(this.app.stage, 'assets/image/pc/qr-code.png');
+    this._image02.run('stage8', this.app.ticker);
+
+
+    this._text04       = this.pixiService.text();
+    this._text04.value = 'モバイルでアクセス';
+
+    this._text04.style.fontSize   = '36px';
+    this._text04.style.fontWeight = 'bold';
+    this._text04.style.color      = '0xFFFFFF';
+
+    this._text04.animation.alpha.from = 0;
+    this._text04.animation.alpha.to   = 1;
+    this._text04.animation.blur.from  = 5;
+    this._text04.animation.blur.to    = 0;
+    this._text04.animation.duration   = 500;
+    this._text04.animation.delay      = 800;
+
+    this._text04.position.x = window.innerWidth * 0.5;
+    this._text04.position.y = window.innerHeight * 0.5 + 180 + 100;
+    this._text04.anchor.x   = 0.5;
+    this._text04.anchor.y   = 0.5;
+
+    this._text04.put(this.app.stage);
+    this._text04.run('stage8', this.app.ticker);
   }
 
   /**
