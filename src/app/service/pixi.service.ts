@@ -329,7 +329,6 @@ export class PixiMethodBase {
         renderedFPS = 0;
 
         // 終了イベントの発火
-        console.log(`${stage}_ended`);
         this.pixiService.setMode(`${stage}_ended`);
         return;
       }
