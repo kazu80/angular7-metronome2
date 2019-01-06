@@ -6,13 +6,15 @@ import { AppComponent } from './app.component';
 import { PcComponent } from './opening/pc/pc.component';
 import {StatsComponent} from './opening/stats/stats.component';
 import {MediaQueryComponent} from './media-query/media-query.component';
+import {SpComponent} from './opening/sp/sp.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PcComponent,
     StatsComponent,
-    MediaQueryComponent
+    MediaQueryComponent,
+    SpComponent
   ],
   imports: [
     BrowserModule,

@@ -1,5 +1,8 @@
 <app-media-query query="(min-width: 750px)" (queryMatches)="handleMediaQuery($event)"></app-media-query>
 
-<app-opening-pc *ngIf="isMobile === false"></app-opening-pc>
+<app-opening-pc *ngIf="isMobile === false; else elseBlock"></app-opening-pc>
+<ng-template #elseBlock>
+    <app-opening-sp></app-opening-sp>
+</ng-template>
 
 <router-outlet></router-outlet>
