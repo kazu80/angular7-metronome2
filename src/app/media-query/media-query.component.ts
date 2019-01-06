@@ -16,9 +16,13 @@ export class MediaQueryComponent implements OnInit, OnChanges {
 
   private _el: HTMLElement;
   private _mq: MediaQueryList;
+  private _boundMQHandler: any;
 
   constructor(el: ElementRef) {
-    this._el = el.nativeElement;
+    this._el             = el.nativeElement;
+    this._boundMQHandler = () => {
+      return this.queryHandler(this._mq);
+    };
   }
 
   ngOnInit() {
@@ -31,6 +35,12 @@ export class MediaQueryComponent implements OnInit, OnChanges {
   ngOnChanges(changes) {
     if (changes.hasOwnProperty('query')) {
       this.queryChanged();
+    }
+  }
+
+  _add() {
+    if (this._mq) {
+      this._mq.addListener(this._boundMQHandler);
     }
   }
 
@@ -47,7 +57,14 @@ export class MediaQueryComponent implements OnInit, OnChanges {
     }
 
     this._mq = window.matchMedia(query);
-    // this._add();
-    // this.queryHandler(this._mq);
+    this._add();
+    this.queryHandler(this._mq);
+  }
+
+  queryHandler(mq: MediaQueryList) {
+    /**
+     * 初回時に２回emitされる
+     */
+    this.queryMatches.emit(mq.matches);
   }
 }
