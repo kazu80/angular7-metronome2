@@ -12,12 +12,17 @@ import {PixiService} from './service/pixi.service';
   ]
 })
 export class AppComponent {
+  private isMobile: boolean;
 
-  handleMediaQuery(event) {
+  constructor() {
+    this.isMobile = false;
+  }
+
+  handleMediaQuery(match) {
     /**
      * 初回時に２回反応する。
      * emit側は１回しか呼ばれていない
      */
-    console.log('queryMatch', event);
+    this.isMobile = !match;
   }
 }

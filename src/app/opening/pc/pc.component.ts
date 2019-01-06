@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit} from '@angular/core';
 import {MainService} from '../../service/main.service';
 import {PixiImage, PixiRect, PixiService, PixiText} from '../../service/pixi.service';
 
@@ -9,7 +9,7 @@ declare var PIXI: any;
   templateUrl: './pc.component.html',
   styleUrls  : ['./pc.component.scss']
 })
-export class PcComponent implements OnInit {
+export class PcComponent implements OnInit, OnDestroy {
   public app: any;
 
   private _el: HTMLElement;
@@ -38,6 +38,10 @@ export class PcComponent implements OnInit {
 
     // Set Mode - stage0
     this.mainService.setMode('stage0');
+  }
+
+  ngOnDestroy() {
+
   }
 
   eventOfMode () {
