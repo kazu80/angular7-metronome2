@@ -1,4 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit} from '@angular/core';
+import {MainService} from '../../service/main.service';
+import {PixiService} from '../../service/pixi.service';
 
 @Component({
   selector   : 'app-opening-sp',
@@ -6,8 +8,14 @@ import {Component, OnInit} from '@angular/core';
   styleUrls  : ['./sp.component.scss']
 })
 export class SpComponent implements OnInit {
+  private _el: HTMLElement;
 
-  constructor() {
+  constructor(
+    el: ElementRef,
+    private mainService: MainService,
+    private pixiService: PixiService
+  ) {
+    this._el = el.nativeElement;
   }
 
   ngOnInit() {
