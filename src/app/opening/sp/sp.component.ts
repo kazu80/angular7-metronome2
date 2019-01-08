@@ -19,6 +19,26 @@ export class SpComponent implements OnInit {
   }
 
   ngOnInit() {
+    // Set Event
+    this.eventOfMode();
+
+    // Set Mode - stage0
+    this.mainService.setModeSP('stage0');
   }
 
+  eventOfMode() {
+    this.mainService.modeSP.subscribe((mode: string) => {
+      switch (mode) {
+        case '':
+          break;
+      }
+    });
+
+    this.pixiService.modeSP.subscribe((mode: string) => {
+      switch (mode) {
+        case '':
+          break;
+      }
+    });
+  }
 }
