@@ -80,15 +80,6 @@ export class SpComponent implements OnInit {
     this._text01.anchor.x = 0.5;
     this._text01.anchor.y = 0.5;
 
-    // this._text01.animation.alpha.from = 0;
-    // this._text01.animation.alpha.to   = 1;
-    // this._text01.animation.blur.from  = 5;
-    // this._text01.animation.blur.to    = 0;
-    this._text01.animation.duration = 500;
-    // this._text01.animation.delay = 800;
-
-    console.log('foo');
-
     this._text01.put(this.app.stage);
     this._text01.run('stage1', this.app.ticker);
   }

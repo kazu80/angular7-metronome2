@@ -321,8 +321,11 @@ export class PixiMethodBase {
       const blur        = Math.abs(this.animation.blur.from - this.animation.blur.to) / durationFPS;
       const positionY   = Math.abs(this.animation.position.y.from - this.animation.position.y.to) / durationFPS;
 
-      // Duration
-      if (renderedFPS >= durationFPS) {
+      /**
+       * Duration処理
+       * 設定されていなかったら、すぐに終了させる。
+       */
+      if (this.animation.duration === undefined || renderedFPS >= durationFPS) {
         // Animation が終わったらTickerを消す
         ticker.remove(this._handlerTicker);
 
