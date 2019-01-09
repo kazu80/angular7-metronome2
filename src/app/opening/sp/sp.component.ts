@@ -59,7 +59,7 @@ export class SpComponent implements OnInit {
     this.app.renderer.view.style.display = 'block';
     this.app.renderer.autoResize = true;
     this.app.renderer.resize(window.innerWidth, window.innerHeight);
-    this.app.renderer.backgroundColor = 0xff0000;
+    this.app.renderer.backgroundColor = 0xffffff;
 
     // Add the canvas that Pixi automatically created for you to the HTML document
     this._el.querySelector('#canvas-wrapper-sp').appendChild(this.app.view);
@@ -79,6 +79,10 @@ export class SpComponent implements OnInit {
     this._text01.position.y = window.innerHeight * 0.5;
     this._text01.anchor.x = 0.5;
     this._text01.anchor.y = 0.5;
+
+    this._text01.event.tap = () => {
+      this.mainService.setMode('stage2');
+    };
 
     this._text01.put(this.app.stage);
     this._text01.run('stage1', this.app.ticker);

@@ -234,6 +234,7 @@ export class PixiAnimation {
 
 export class PixiEvent {
   private _click: object;
+  private _tap: object;
 
   get click(): object {
     return this._click;
@@ -241,6 +242,14 @@ export class PixiEvent {
 
   set click(value: object) {
     this._click = value;
+  }
+
+  get tap(): object {
+    return this._tap;
+  }
+
+  set tap(value: object) {
+    this._tap = value;
   }
 }
 
@@ -536,6 +545,11 @@ export class PixiText extends PixiMethodBase {
 
       // イベント登録
       text.on('click', this.event.click);
+    }
+
+    if (this.event.tap !== undefined) {
+      text.interactive = true;
+      text.on('tap', this.event.tap);
     }
 
     // Add Stage
