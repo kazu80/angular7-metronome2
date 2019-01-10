@@ -41,6 +41,9 @@ export class SpComponent implements OnInit {
         case 'stage1':
           this.stage1();
           break;
+        case 'stage2':
+          this.stage2();
+          break;
       }
     });
 
@@ -81,10 +84,20 @@ export class SpComponent implements OnInit {
     this._text01.anchor.y = 0.5;
 
     this._text01.event.tap = () => {
-      this.mainService.setMode('stage2');
+      this.mainService.setModeSP('stage2');
     };
 
     this._text01.put(this.app.stage);
     this._text01.run('stage1', this.app.ticker);
+  }
+
+  stage2() {
+    this._text01.animation.alpha.from = 1;
+    this._text01.animation.alpha.to   = 0;
+    this._text01.animation.blur.from  = 0;
+    this._text01.animation.blur.to    = 5;
+    this._text01.animation.duration   = 400;
+
+    this._text01.run('stage2', this.app.ticker);
   }
 }
