@@ -247,8 +247,21 @@ export class PixiRect extends PixiMethodBase {
 /**
  * Circle
  */
-export class PixiCircle {
+export class PixiCircle extends PixiMethodBase {
+  constructor(pixiService: PixiService) {
+    super(pixiService);
+  }
 
+  put(stage) {
+    const graphics = new PIXI.Graphics();
+
+    graphics.beginFill(this.style.color);
+    const circle = graphics.drawCircle(this.position.x, this.position.y, this.style.radius);
+
+    stage.addChild(circle);
+
+    this.instanceObject = circle;
+  }
 }
 
 /**
