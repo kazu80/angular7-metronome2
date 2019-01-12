@@ -46,7 +46,7 @@ export class PcComponent implements OnInit, OnDestroy {
   }
 
   eventOfMode () {
-    this.mainService.mode.subscribe((mode: string) => {
+    this.mainService.getMode().subscribe((mode: string) => {
       switch (mode) {
         case 'stage0':
           this.openingInit();
@@ -57,7 +57,7 @@ export class PcComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.pixiService.mode.subscribe((mode: string) => {
+    this.pixiService.getMode().subscribe((mode: string) => {
       switch (mode) {
         case 'stage1_ended':
           this.stage2();

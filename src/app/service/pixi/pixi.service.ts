@@ -8,6 +8,8 @@ import {PixiImage, PixiRect, PixiText} from './pixi.methods';
 export class PixiService {
   private _mode: Subject<any>;
   private _modeSP: Subject<any>;
+  private _device: string;
+
   public mode: Observable<any>;
   public modeSP: Observable<any>;
 
@@ -19,11 +21,19 @@ export class PixiService {
   }
 
   setMode(value: string) {
-    this._mode.next(value);
+    if (this.device === 'sp') {
+      this._modeSP.next(value);
+    } else {
+      this._mode.next(value);
+    }
   }
 
-  setModeSP(value: string) {
-    this._modeSP.next(value);
+  getMode() {
+    if (this.device === 'sp') {
+      return this.modeSP;
+    } else {
+      return this.mode;
+    }
   }
 
   text (): PixiText {
@@ -36,5 +46,13 @@ export class PixiService {
 
   image(): PixiImage {
     return new PixiImage(this);
+  }
+
+  get device(): string {
+    return this._device;
+  }
+
+  set device(value: string) {
+    this._device = value;
   }
 }

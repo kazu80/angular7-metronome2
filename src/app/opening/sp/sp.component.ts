@@ -23,6 +23,9 @@ export class SpComponent implements OnInit {
     private pixiService: PixiService
   ) {
     this._el = el.nativeElement;
+
+    this.mainService.device = 'sp';
+    this.pixiService.device = 'sp';
   }
 
   ngOnInit() {
@@ -30,11 +33,11 @@ export class SpComponent implements OnInit {
     this.eventOfMode();
 
     // Set Mode - stage0
-    this.mainService.setModeSP('stage0');
+    this.mainService.setMode('stage0');
   }
 
   eventOfMode() {
-    this.mainService.modeSP.subscribe((mode: string) => {
+    this.mainService.getMode().subscribe((mode: string) => {
       switch (mode) {
         case 'stage0':
           this.openingInit();
@@ -48,9 +51,10 @@ export class SpComponent implements OnInit {
       }
     });
 
-    this.pixiService.modeSP.subscribe((mode: string) => {
+    this.pixiService.getMode().subscribe((mode: string) => {
       switch (mode) {
-        case '':
+        case 'stage2_ended':
+          this.stage3();
           break;
       }
     });
@@ -68,7 +72,7 @@ export class SpComponent implements OnInit {
     // Add the canvas that Pixi automatically created for you to the HTML document
     this._el.querySelector('#canvas-wrapper-sp').appendChild(this.app.view);
 
-    this.mainService.setModeSP('stage1');
+    this.mainService.setMode('stage1');
   }
 
   stage1() {
@@ -85,7 +89,7 @@ export class SpComponent implements OnInit {
     this._text01.anchor.y = 0.5;
 
     this._text01.event.tap = () => {
-      this.mainService.setModeSP('stage2');
+      this.mainService.setMode('stage2');
     };
 
     this._text01.put(this.app.stage);
@@ -100,5 +104,9 @@ export class SpComponent implements OnInit {
     this._text01.animation.duration   = 400;
 
     this._text01.run('stage2', this.app.ticker);
+  }
+
+  stage3() {
+    console.log('stage3');
   }
 }
