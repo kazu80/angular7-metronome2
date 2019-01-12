@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {MainService} from './service/main.service';
-import {PixiService} from './service/pixi.service';
+import {PixiService} from './service/pixi/pixi.service';
 
 @Component({
   selector: 'app-root',

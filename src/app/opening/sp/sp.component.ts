@@ -1,7 +1,7 @@
 import {Component, ElementRef, OnInit} from '@angular/core';
 import {MainService} from '../../service/main.service';
-import {PixiService} from '../../service/pixi.service';
-import {PixiText} from '../../service/pixi.methods';
+import {PixiService} from '../../service/pixi/pixi.service';
+import {PixiText} from '../../service/pixi/pixi.methods';
 
 declare var PIXI: any;
 
