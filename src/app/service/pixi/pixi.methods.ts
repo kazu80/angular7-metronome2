@@ -214,12 +214,9 @@ export class PixiImage extends PixiMethodBase {
  * Rect
  */
 export class PixiRect extends PixiMethodBase {
-  private _isTickerCreated: boolean;
 
   constructor(pixiService: PixiService) {
     super(pixiService);
-
-    this._isTickerCreated = false;
   }
 
   put(stage) {
