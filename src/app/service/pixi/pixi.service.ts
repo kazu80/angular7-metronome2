@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Observable, Subject} from 'rxjs';
-import {PixiImage, PixiRect, PixiText} from './pixi.methods';
+import {PixiCircle, PixiImage, PixiRect, PixiText} from './pixi.methods';
 
 @Injectable({
   providedIn: 'root'
@@ -42,6 +42,10 @@ export class PixiService {
 
   rect(): PixiRect {
     return new PixiRect(this);
+  }
+
+  circle(): PixiCircle {
+    return new PixiCircle(this);
   }
 
   image(): PixiImage {

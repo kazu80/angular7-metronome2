@@ -1,7 +1,7 @@
 import {Component, ElementRef, OnInit} from '@angular/core';
 import {MainService} from '../../service/main.service';
 import {PixiService} from '../../service/pixi/pixi.service';
-import {PixiText} from '../../service/pixi/pixi.methods';
+import {PixiCircle, PixiText} from '../../service/pixi/pixi.methods';
 
 declare var PIXI: any;
 
@@ -16,6 +16,7 @@ export class SpComponent implements OnInit {
   private _el: HTMLElement;
 
   private _text01: PixiText;
+  private _circle01: PixiCircle;
 
   constructor(
     el: ElementRef,
@@ -108,5 +109,16 @@ export class SpComponent implements OnInit {
 
   stage3() {
     console.log('stage3');
+    this._circle01 = this.pixiService.circle();
+
+    this._circle01.style.color  = '0xDD0031';
+    this._circle01.style.radius = 50;
+    this._circle01.position.x   = window.innerWidth * 0.5;
+    this._circle01.position.y   = window.innerHeight * 0.5;
+
+    // this._circle01.animation.scale
+
+    this._circle01.put(this.app.stage);
+    this._circle01.run('stage3', this.app.ticker);
   }
 }
