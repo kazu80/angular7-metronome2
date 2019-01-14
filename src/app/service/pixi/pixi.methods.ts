@@ -56,6 +56,12 @@ export class PixiMethodBase {
     this._handlerTicker = value;
   }
 
+  height() {
+    if (this.instanceObject) {
+      return this.instanceObject.height;
+    }
+  }
+
   fps(ticker: any) {
     return ticker.FPS;
   }
@@ -229,6 +235,8 @@ export class PixiImage extends PixiMethodBase {
 
     // インスタンスの保存
     this.instanceObject = img;
+
+    console.log('height:', img.height);
   }
 }
 

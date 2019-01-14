@@ -1,7 +1,7 @@
 import {Component, ElementRef, OnInit} from '@angular/core';
 import {MainService} from '../../service/main.service';
 import {PixiService} from '../../service/pixi/pixi.service';
-import {PixiCircle, PixiText} from '../../service/pixi/pixi.methods';
+import {PixiCircle, PixiImage, PixiText} from '../../service/pixi/pixi.methods';
 
 declare var PIXI: any;
 
@@ -16,10 +16,13 @@ export class SpComponent implements OnInit {
   private _el: HTMLElement;
 
   private _text01: PixiText;
+  private _text02: PixiText;
 
   private _circle01: PixiCircle;
   private _circle02: PixiCircle;
   private _circle03: PixiCircle;
+
+  private _image01: PixiImage;
 
   constructor(
     el: ElementRef,
@@ -52,14 +55,22 @@ export class SpComponent implements OnInit {
         case 'stage2':
           this.stage2();
           break;
+        case 'stage3':
+          this.stage3();
+          break;
+        case 'stage6':
+          this.stage6();
+          break;
       }
     });
 
     this.pixiService.getMode().subscribe((mode: string) => {
       switch (mode) {
         case 'stage2_ended':
-          this.stage3();
+          this.mainService.setMode('stage3');
           break;
+        case 'stage5_ended':
+          this.mainService.setMode('stage6');
       }
     });
   }
@@ -154,5 +165,45 @@ export class SpComponent implements OnInit {
 
     this._circle03.put(this.app.stage);
     this._circle03.run('stage5', this.app.ticker);
+  }
+
+  stage6() {
+    // [METRONOME] LOGOを準備
+    this._image01 = this.pixiService.image();
+
+    this._image01.position.x = window.innerWidth * 0.5;
+    this._image01.position.y = window.innerHeight * 0.5;
+
+    this._image01.anchor.x = 0.45;
+    this._image01.anchor.y = 0.6;
+
+    this._image01.animation.alpha.from = 0;
+    this._image01.animation.alpha.to   = 1;
+    this._image01.animation.blur.from  = 5;
+    this._image01.animation.blur.to    = 0;
+    this._image01.animation.duration   = 200;
+    this._image01.animation.delay      = 400;
+
+    this._image01.put(this.app.stage, 'assets/image/sp/logo.svg');
+    this._image01.run('stage6', this.app.ticker);
+
+    // [METRONOME]文字を準備
+    this._text02       = this.pixiService.text();
+    this._text02.value = 'METRONOME';
+
+    this._text02.style.fontSize   = '40px';
+    this._text02.style.fontWeight = 'bold';
+    this._text02.style.align      = 'center';
+    this._text02.style.color      = 'white';
+
+    console.log('height', this._image01.height());
+
+    this._text02.position.x = window.innerWidth * 0.5;
+    this._text02.position.y = this._image01.position.y + (this._image01.height() * 0.5) + 10;
+    this._text02.anchor.x   = 0.5;
+    this._text02.anchor.y   = 0.5;
+
+    this._text02.put(this.app.stage);
+    this._text02.run('stage7', this.app.ticker);
   }
 }
