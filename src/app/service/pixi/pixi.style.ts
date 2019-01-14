@@ -7,6 +7,7 @@ export class PixiStyle {
   private _width: number;
   private _height: number;
   private _radius: number;
+  private _alpha: number;
 
   set color(value: string) {
     this._color = value;
@@ -70,6 +71,14 @@ export class PixiStyle {
 
   set radius(value: number) {
     this._radius = value;
+  }
+
+  get alpha(): number {
+    return this._alpha || 1;
+  }
+
+  set alpha(value: number) {
+    this._alpha = value;
   }
 }
 

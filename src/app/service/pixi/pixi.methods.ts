@@ -283,6 +283,8 @@ export class PixiCircle extends PixiMethodBase {
     circle.x = this.position.x;
     circle.y = this.position.y;
 
+    circle.alpha = this.style.alpha;
+
     stage.addChild(circle);
 
     this.instanceObject = circle;

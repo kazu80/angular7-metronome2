@@ -16,7 +16,10 @@ export class SpComponent implements OnInit {
   private _el: HTMLElement;
 
   private _text01: PixiText;
+
   private _circle01: PixiCircle;
+  private _circle02: PixiCircle;
+  private _circle03: PixiCircle;
 
   constructor(
     el: ElementRef,
@@ -109,17 +112,47 @@ export class SpComponent implements OnInit {
 
   stage3() {
     this._circle01 = this.pixiService.circle();
+    this._circle02 = this.pixiService.circle();
+    this._circle03 = this.pixiService.circle();
 
-    this._circle01.style.color  = '0xDD0031';
+    this._circle01.style.color = '0xDD0031';
+    this._circle02.style.color = '0xDD0031';
+    this._circle03.style.color = '0xDD0031';
+
     this._circle01.style.radius = 50;
-    this._circle01.position.x   = window.innerWidth * 0.5;
-    this._circle01.position.y   = window.innerHeight * 0.5;
+    this._circle02.style.radius = 50;
+    this._circle03.style.radius = 50;
+
+    this._circle01.position.x = window.innerWidth * 0.5;
+    this._circle01.position.y = window.innerHeight * 0.5;
+    this._circle02.position.x = window.innerWidth * 0.5;
+    this._circle02.position.y = window.innerHeight * 0.5;
+    this._circle03.position.x = window.innerWidth * 0.5;
+    this._circle03.position.y = window.innerHeight * 0.5;
+
+    this._circle01.style.alpha = 1;
+    this._circle02.style.alpha = .5;
+    this._circle03.style.alpha = .25;
 
     this._circle01.animation.scale.from = 0;
     this._circle01.animation.scale.to   = 10;
-    this._circle01.animation.duration   = 300;
+    this._circle01.animation.duration   = 500;
+
+    this._circle02.animation.scale.from = 0;
+    this._circle02.animation.scale.to   = 10;
+    this._circle02.animation.duration   = 300;
+
+    this._circle03.animation.scale.from = 0;
+    this._circle03.animation.scale.to   = 10;
+    this._circle03.animation.duration   = 200;
 
     this._circle01.put(this.app.stage);
     this._circle01.run('stage3', this.app.ticker);
+
+    this._circle02.put(this.app.stage);
+    this._circle02.run('stage4', this.app.ticker);
+
+    this._circle03.put(this.app.stage);
+    this._circle03.run('stage5', this.app.ticker);
   }
 }
