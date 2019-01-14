@@ -2,14 +2,20 @@ export class PixiAnimation {
   _alpha: PixiAnimationAlpha;
   _blur: PixiAnimationBlur;
   _position: PixiAnimationPosition;
+  _scale: PixiAnimationScale;
   _duration: number;
   _delay: number;
 
   constructor() {
-    this._alpha = new PixiAnimationAlpha();
-    this._blur = new PixiAnimationBlur();
+    this._alpha    = new PixiAnimationAlpha();
+    this._blur     = new PixiAnimationBlur();
     this._position = new PixiAnimationPosition();
-    this._delay = 0;
+    this._scale    = new PixiAnimationScale();
+    this._delay    = 0;
+  }
+
+  get scale(): PixiAnimationScale {
+    return this._scale;
   }
 
   get alpha() {
@@ -112,5 +118,13 @@ export class PixiAnimationPosition {
 
   get x(): PixiAnimationPositionX {
     return this._x;
+  }
+}
+
+export class PixiAnimationScale extends PixiAnimationBase {
+  constructor() {
+    super();
+    this.from = 0;
+    this.to   = 0;
   }
 }

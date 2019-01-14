@@ -102,13 +102,12 @@ export class SpComponent implements OnInit {
     this._text01.animation.alpha.to   = 0;
     this._text01.animation.blur.from  = 0;
     this._text01.animation.blur.to    = 5;
-    this._text01.animation.duration   = 400;
+    this._text01.animation.duration   = 200;
 
     this._text01.run('stage2', this.app.ticker);
   }
 
   stage3() {
-    console.log('stage3');
     this._circle01 = this.pixiService.circle();
 
     this._circle01.style.color  = '0xDD0031';
@@ -116,7 +115,9 @@ export class SpComponent implements OnInit {
     this._circle01.position.x   = window.innerWidth * 0.5;
     this._circle01.position.y   = window.innerHeight * 0.5;
 
-    // this._circle01.animation.scale
+    this._circle01.animation.scale.from = 0;
+    this._circle01.animation.scale.to   = 10;
+    this._circle01.animation.duration   = 300;
 
     this._circle01.put(this.app.stage);
     this._circle01.run('stage3', this.app.ticker);

@@ -76,9 +76,10 @@ export class PixiMethodBase {
 
     this.handlerTicker = (deltaTime) => {
       const durationFPS = this.animation.duration * (fps / 1000);
-      const alpha = Math.abs(this.animation.alpha.from - this.animation.alpha.to) / durationFPS;
-      const blur = Math.abs(this.animation.blur.from - this.animation.blur.to) / durationFPS;
-      const positionY = Math.abs(this.animation.position.y.from - this.animation.position.y.to) / durationFPS;
+      const alpha       = Math.abs(this.animation.alpha.from - this.animation.alpha.to) / durationFPS;
+      const blur        = Math.abs(this.animation.blur.from - this.animation.blur.to) / durationFPS;
+      const scale       = Math.abs(this.animation.scale.from - this.animation.scale.to) / durationFPS;
+      const positionY   = Math.abs(this.animation.position.y.from - this.animation.position.y.to) / durationFPS;
 
       /**
        * Duration処理
@@ -139,6 +140,27 @@ export class PixiMethodBase {
           if (instanceBlur.blur < 0) {
             instanceBlur.blur = 0;
           }
+        }
+      }
+
+      // Animation Scale
+      if (this.instanceObject !== undefined && this.instanceObject.scale !== null) {
+        const isScaleUp = this.animation.scale.from < this.animation.scale.to;
+
+        if (isScaleUp) {
+          this.instanceObject.scale.x += scale;
+          this.instanceObject.scale.y += scale;
+        } else {
+          this.instanceObject.scale.x -= scale;
+          this.instanceObject.scale.y -= scale;
+        }
+
+        // scale MIN値
+        if (this.instanceObject.scale.x < 0) {
+          this.instanceObject.scale.x = 0;
+        }
+        if (this.instanceObject.scale.y < 0) {
+          this.instanceObject.scale.y = 0;
         }
       }
 
@@ -256,7 +278,10 @@ export class PixiCircle extends PixiMethodBase {
     const graphics = new PIXI.Graphics();
 
     graphics.beginFill(this.style.color);
-    const circle = graphics.drawCircle(this.position.x, this.position.y, this.style.radius);
+    const circle = graphics.drawCircle(0, 0, this.style.radius);
+
+    circle.x = this.position.x;
+    circle.y = this.position.y;
 
     stage.addChild(circle);
 
