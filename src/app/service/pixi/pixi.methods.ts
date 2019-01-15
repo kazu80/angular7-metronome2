@@ -235,8 +235,14 @@ export class PixiImage extends PixiMethodBase {
 
     // インスタンスの保存
     this.instanceObject = img;
+  }
 
-    console.log('height:', img.height);
+  height() {
+    return this.instanceObject.height;
+  }
+
+  width() {
+    return this.instanceObject.width;
   }
 }
 
