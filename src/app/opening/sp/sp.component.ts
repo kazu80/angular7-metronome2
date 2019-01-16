@@ -109,13 +109,6 @@ export class SpComponent implements OnInit {
 
     this._text01.put(this.app.stage);
     this._text01.run('stage1', this.app.ticker);
-
-    // [METRONOME] LOGOを準備
-    // 事前に用意しないとheight, widthが取れない
-    this._image01 = this.pixiService.image();
-
-    this._image01.run('image1', this.app.ticker);
-    this._image01.put(this.app.stage, 'assets/image/sp/logo.svg');
   }
 
   stage2() {
@@ -172,6 +165,21 @@ export class SpComponent implements OnInit {
 
     this._circle03.put(this.app.stage);
     this._circle03.run('stage5', this.app.ticker);
+
+    // [METRONOME] LOGOを準備
+    // 事前に用意しないとheight, widthが取れない
+    this._image01 = this.pixiService.image();
+
+    this._image01.position.x = window.innerWidth * 0.5;
+    this._image01.position.y = window.innerHeight * 0.5;
+
+    this._image01.anchor.x = 0.45;
+    this._image01.anchor.y = 0.6;
+
+    this._image01.animation.alpha.from = 0;
+    this._image01.animation.alpha.to   = 1;
+
+    this._image01.put(this.app.stage, 'assets/image/sp/logo.svg');
   }
 
   stage6() {
