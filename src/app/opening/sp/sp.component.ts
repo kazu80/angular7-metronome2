@@ -57,9 +57,13 @@ export class SpComponent implements OnInit {
           break;
         case 'stage3':
           this.stage3();
+          this.stage6Prepare();
           break;
         case 'stage6':
           this.stage6();
+          break;
+        case 'stage8':
+          this.stage8();
           break;
       }
     });
@@ -71,6 +75,10 @@ export class SpComponent implements OnInit {
           break;
         case 'stage5_ended':
           this.mainService.setMode('stage6');
+          break;
+        case 'stage7_ended':
+          this.mainService.setMode('stage8');
+          break;
       }
     });
   }
@@ -165,9 +173,13 @@ export class SpComponent implements OnInit {
 
     this._circle03.put(this.app.stage);
     this._circle03.run('stage5', this.app.ticker);
+  }
 
-    // [METRONOME] LOGOを準備
-    // 事前に用意しないとheight, widthが取れない
+  /**
+   *  [METRONOME] LOGOを準備
+   *  事前に用意しないとheight, widthが取れない
+   */
+  stage6Prepare() {
     this._image01 = this.pixiService.image();
 
     this._image01.position.x = window.innerWidth * 0.5;
@@ -209,11 +221,22 @@ export class SpComponent implements OnInit {
     this._text02.style.color      = 'white';
 
     this._text02.position.x = window.innerWidth * 0.5;
-    this._text02.position.y = this._image01.position.y + (this._image01.height() * 0.5) + 10;
+    this._text02.position.y = this._image01.position.y + (this._image01.height() * 0.5) + 20;
     this._text02.anchor.x   = 0.5;
     this._text02.anchor.y   = 0.5;
 
+    this._text02.animation.alpha.from = 0;
+    this._text02.animation.alpha.to   = 1;
+    this._text02.animation.blur.from  = 5;
+    this._text02.animation.blur.to    = 0;
+    this._text02.animation.duration   = 200;
+    this._text02.animation.delay      = 400;
+
     this._text02.put(this.app.stage);
     this._text02.run('stage7', this.app.ticker);
+  }
+
+  stage8() {
+
   }
 }
