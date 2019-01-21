@@ -8,6 +8,7 @@ export class PixiStyle {
   private _height: number;
   private _radius: number;
   private _alpha: number;
+  private _zIndex: number;
 
   set color(value: string) {
     this._color = value;
@@ -79,6 +80,14 @@ export class PixiStyle {
 
   set alpha(value: number) {
     this._alpha = value;
+  }
+
+  get zIndex(): number {
+    return this._zIndex;
+  }
+
+  set zIndex(value: number) {
+    this._zIndex = value;
   }
 }
 

@@ -23,6 +23,7 @@ export class SpComponent implements OnInit {
   private _circle03: PixiCircle;
 
   private _image01: PixiImage;
+  private _image02: PixiImage;
 
   constructor(
     el: ElementRef,
@@ -95,6 +96,16 @@ export class SpComponent implements OnInit {
     // Add the canvas that Pixi automatically created for you to the HTML document
     this._el.querySelector('#canvas-wrapper-sp').appendChild(this.app.view);
 
+    // Control zIndex
+    this.app.stage.updateLayersOrder = () => {
+      this.app.stage.children.sort(function (a, b) {
+        a.zIndex = a.zIndex || 0;
+        b.zIndex = b.zIndex || 0;
+
+        return b.zIndex - a.zIndex;
+      });
+    };
+
     this.mainService.setMode('stage1');
   }
 
@@ -153,6 +164,10 @@ export class SpComponent implements OnInit {
     this._circle02.style.alpha = .5;
     this._circle03.style.alpha = .25;
 
+    this._circle01.style.zIndex = 100;
+    this._circle02.style.zIndex = 90;
+    this._circle03.style.zIndex = 80;
+
     this._circle01.animation.scale.from = 0;
     this._circle01.animation.scale.to   = 10;
     this._circle01.animation.duration   = 500;
@@ -181,6 +196,8 @@ export class SpComponent implements OnInit {
    */
   stage6Prepare() {
     this._image01 = this.pixiService.image();
+
+    this._image01.style.zIndex = 60;
 
     this._image01.position.x = window.innerWidth * 0.5;
     this._image01.position.y = window.innerHeight * 0.5;
@@ -237,6 +254,20 @@ export class SpComponent implements OnInit {
   }
 
   stage8() {
+    this._image02 = this.pixiService.image();
 
+    this._image02.position.x = window.innerWidth * 0.5;
+    this._image02.position.y = window.innerHeight * 0.5;
+
+    this._image02.anchor.x = 0.5;
+    this._image02.anchor.y = 0.5;
+
+    this._image02.style.zIndex = 70;
+
+    // this._image02.animation.alpha.from = 0;
+    // this._image02.animation.alpha.to   = 1;
+
+    this._image02.put(this.app.stage, 'assets/image/sp/angular-blank.png');
+    this._image02.run('stage8', this.app.ticker);
   }
 }

@@ -231,7 +231,14 @@ export class PixiImage extends PixiMethodBase {
       img.filters = [filterBlur];
     }
 
+    // zIndex
+    if (this.style.zIndex) {
+      img.zIndex = this.style.zIndex;
+    }
+
     stage.addChild(img);
+
+    stage.updateLayersOrder();
 
     // インスタンスの保存
     this.instanceObject = img;
@@ -267,8 +274,14 @@ export class PixiRect extends PixiMethodBase {
       this.style.height
     );
 
+    if (this.style.zIndex) {
+      rect.zIndex = this.style.zIndex;
+    }
+
     // Add Stage
     stage.addChild(rect);
+
+    stage.updateLayersOrder();
 
     // Rectのインスタンスを登録する
     this.instanceObject = rect;
@@ -299,7 +312,13 @@ export class PixiCircle extends PixiMethodBase {
 
     circle.alpha = this.style.alpha;
 
+    if (this.style.zIndex) {
+      circle.zIndex = this.style.zIndex;
+    }
+
     stage.addChild(circle);
+
+    stage.updateLayersOrder();
 
     this.instanceObject = circle;
   }
@@ -360,8 +379,14 @@ export class PixiText extends PixiMethodBase {
       text.on('tap', this.event.tap);
     }
 
+    if (this.style.zIndex) {
+      text.zIndex = this.style.zIndex;
+    }
+
     // Add Stage
     stage.addChild(text);
+
+    stage.updateLayersOrder();
 
     // Save instance
     this.instanceObject = text;
