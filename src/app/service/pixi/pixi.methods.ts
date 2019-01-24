@@ -236,6 +236,12 @@ export class PixiImage extends PixiMethodBase {
       img.zIndex = this.style.zIndex;
     }
 
+    // scale
+    if (this.style.scale) {
+      img.scale.x = this.style.scale;
+      img.scale.y = this.style.scale;
+    }
+
     stage.addChild(img);
 
     stage.updateLayersOrder();

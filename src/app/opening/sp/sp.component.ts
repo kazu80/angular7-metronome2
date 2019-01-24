@@ -254,18 +254,24 @@ export class SpComponent implements OnInit {
   }
 
   stage8() {
+    console.log('stage8');
     this._image02 = this.pixiService.image();
 
     this._image02.position.x = window.innerWidth * 0.5;
-    this._image02.position.y = window.innerHeight * 0.5;
+    this._image02.position.y = window.innerHeight * -1.4;
 
     this._image02.anchor.x = 0.5;
     this._image02.anchor.y = 0.5;
 
     this._image02.style.zIndex = 70;
 
-    // this._image02.animation.alpha.from = 0;
-    // this._image02.animation.alpha.to   = 1;
+    this._image02.style.scale = 8;
+
+    this._image02.animation.position.y.from = window.innerHeight * -1.4;
+    this._image02.animation.position.y.to   = window.innerHeight * 0.5;
+
+    this._image02.animation.delay    = 1000;
+    this._image02.animation.duration = 600;
 
     this._image02.put(this.app.stage, 'assets/image/sp/angular-blank.png');
     this._image02.run('stage8', this.app.ticker);
