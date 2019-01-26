@@ -2,6 +2,7 @@ import {PixiAnchor, PixiPosition, PixiStyle} from './pixi.style';
 import {PixiAnimation} from './pixi.animation';
 import {PixiEvent} from './pixi.event';
 import {PixiService} from './pixi.service';
+import {hasOwnProperty} from 'tslint/lib/utils';
 
 declare var PIXI: any;
 
@@ -106,6 +107,16 @@ export class PixiMethodBase {
       if (delay > 0) {
         delay--;
         return;
+      }
+
+      // color change
+      if (this.style.color &&
+        'style' in this.instanceObject &&
+        this.instanceObject.style.fill !== this.style.color) {
+
+        console.log('foo', stage, this.style.color);
+
+        this.instanceObject.style.fill = this.style.color;
       }
 
       // Animation Alpha

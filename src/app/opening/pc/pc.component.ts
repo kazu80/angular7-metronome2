@@ -99,6 +99,7 @@ export class PcComponent implements OnInit, OnDestroy {
     this._text01.style.fontSize   = '36px';
     this._text01.style.fontWeight = 'bold';
     this._text01.style.align      = 'center';
+    this._text01.style.color      = 'black';
 
     this._text01.animation.alpha.from = 0;
     this._text01.animation.alpha.to   = 1;
@@ -196,7 +197,7 @@ export class PcComponent implements OnInit, OnDestroy {
 
     this._text02.style.fontSize   = '70px';
     this._text02.style.fontWeight = 'bold';
-    this._text02.style.color      = '0xFFFFFF';
+    this._text02.style.color      = 'white';
 
     this._text02.animation.alpha.from = 0;
     this._text02.animation.alpha.to   = 1;
@@ -220,7 +221,7 @@ export class PcComponent implements OnInit, OnDestroy {
 
     this._text03.style.fontSize   = '36px';
     this._text03.style.fontWeight = 'bold';
-    this._text03.style.color      = '0xFFFFFF';
+    this._text03.style.color      = 'white';
 
     this._text03.animation.alpha.from = 0;
     this._text03.animation.alpha.to   = 1;

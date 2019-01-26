@@ -66,6 +66,9 @@ export class SpComponent implements OnInit {
         case 'stage8':
           this.stage8();
           break;
+        case 'stage9':
+          this.stage9();
+          break;
       }
     });
 
@@ -79,6 +82,9 @@ export class SpComponent implements OnInit {
           break;
         case 'stage7_ended':
           this.mainService.setMode('stage8');
+          break;
+        case 'stage8_ended':
+          this.mainService.setMode('stage9');
           break;
       }
     });
@@ -113,9 +119,10 @@ export class SpComponent implements OnInit {
     this._text01 = this.pixiService.text();
     this._text01.value = 'START';
 
-    this._text01.style.fontSize = '36px';
+    this._text01.style.fontSize   = '36px';
     this._text01.style.fontWeight = 'bold';
-    this._text01.style.align = 'center';
+    this._text01.style.align      = 'center';
+    this._text01.style.color      = 'black';
 
     this._text01.position.x = window.innerWidth * 0.5;
     this._text01.position.y = window.innerHeight * 0.5;
@@ -254,7 +261,6 @@ export class SpComponent implements OnInit {
   }
 
   stage8() {
-    console.log('stage8');
     this._image02 = this.pixiService.image();
 
     this._image02.position.x = window.innerWidth * 0.5;
@@ -275,5 +281,42 @@ export class SpComponent implements OnInit {
 
     this._image02.put(this.app.stage, 'assets/image/sp/angular-blank.png');
     this._image02.run('stage8', this.app.ticker);
+  }
+
+  stage9() {
+    // Circleを小さく
+    this._circle01.animation.scale.from = 10;
+    this._circle01.animation.scale.to   = 0;
+    this._circle01.animation.duration   = 1;
+
+    this._circle02.animation.scale.from = 10;
+    this._circle02.animation.scale.to   = 0;
+    this._circle02.animation.duration   = 1;
+
+    this._circle03.animation.scale.from = 10;
+    this._circle03.animation.scale.to   = 0;
+    this._circle03.animation.duration   = 1;
+
+    this._circle01.run('stage9', this.app.ticker);
+    this._circle02.run('stage10', this.app.ticker);
+    this._circle03.run('stage11', this.app.ticker);
+
+    // METRONOME文字
+    this._text02.style.color        = 'black';
+    this._text02.animation.delay    = 2800;
+    this._text02.animation.duration = 1;
+    this._text02.run('stage12', this.app.ticker);
+
+    // Logoを小さく
+    this._image02.animation.scale.from = 8;
+    this._image02.animation.scale.to   = 1.1;
+
+    this._image02.animation.position.y.to   = window.innerHeight * 0.5;
+    this._image02.animation.position.y.from = window.innerHeight * 0.51;
+
+    this._image02.animation.delay    = 100;
+    this._image02.animation.duration = 3000;
+
+    this._image02.run('stage13', this.app.ticker);
   }
 }

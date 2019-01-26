@@ -16,7 +16,7 @@ export class PixiStyle {
   }
 
   get color() {
-    return this._color || '0x000000';
+    return this._color;
   }
 
   set fontWeight(value: string) {
