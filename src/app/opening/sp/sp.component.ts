@@ -302,21 +302,32 @@ export class SpComponent implements OnInit {
     this._circle03.run('stage11', this.app.ticker);
 
     // METRONOME文字
-    this._text02.style.color        = 'black';
-    this._text02.animation.delay    = 2800;
-    this._text02.animation.duration = 1;
+    this._text02.style.color               = 'black';
+    this._text02.animation.position.y.from = this._image01.position.y + (this._image01.height() * 0.5) + 20;
+    this._text02.animation.position.y.to   = this._image01.position.y + (this._image01.height() * 0.5);
+    this._text02.animation.delay           = 2800;
+    this._text02.animation.duration        = 400;
+
     this._text02.run('stage12', this.app.ticker);
+
+    //
+    this._image01.animation.position.y.from = window.innerHeight * 0.5;
+    this._image01.animation.position.y.to   = window.innerHeight * 0.5 - 80;
+    this._image01.animation.delay           = 2800;
+    this._image01.animation.duration        = 400;
+
+    this._image01.run('stage13', this.app.ticker);
 
     // Logoを小さく
     this._image02.animation.scale.from = 8;
     this._image02.animation.scale.to   = 1.1;
 
-    this._image02.animation.position.y.to   = window.innerHeight * 0.5;
     this._image02.animation.position.y.from = window.innerHeight * 0.51;
+    this._image02.animation.position.y.to   = window.innerHeight * 0.5 - 80;
 
     this._image02.animation.delay    = 100;
     this._image02.animation.duration = 3000;
 
-    this._image02.run('stage13', this.app.ticker);
+    this._image02.run('stage14', this.app.ticker);
   }
 }
