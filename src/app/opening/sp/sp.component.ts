@@ -17,6 +17,7 @@ export class SpComponent implements OnInit {
 
   private _text01: PixiText;
   private _text02: PixiText;
+  private _text03: PixiText;
 
   private _circle01: PixiCircle;
   private _circle02: PixiCircle;
@@ -69,6 +70,9 @@ export class SpComponent implements OnInit {
         case 'stage9':
           this.stage9();
           break;
+        case 'stage15':
+          this.stage15();
+          break;
       }
     });
 
@@ -85,6 +89,9 @@ export class SpComponent implements OnInit {
           break;
         case 'stage8_ended':
           this.mainService.setMode('stage9');
+          break;
+        case 'stage14_ended':
+          this.mainService.setMode('stage15');
           break;
       }
     });
@@ -329,5 +336,37 @@ export class SpComponent implements OnInit {
     this._image02.animation.duration = 3000;
 
     this._image02.run('stage14', this.app.ticker);
+  }
+
+  stage15() {
+    this._text03       = this.pixiService.text();
+    this._text03.value = 'PLAY';
+
+    this._text03.style.fontSize   = '36px';
+    this._text03.style.fontWeight = 'bold';
+    this._text03.style.align      = 'center';
+    this._text03.style.color      = 'black';
+
+    this._text03.position.x = window.innerWidth * 0.5;
+    this._text03.position.y = this._text02.position.y + this._text02.height() + 20;
+    this._text03.anchor.x   = 0.5;
+    this._text03.anchor.y   = 0.5;
+
+
+    this._text03.animation.alpha.from = 1;
+    this._text03.animation.alpha.to   = 0;
+    this._text03.animation.blur.from  = 0;
+    this._text03.animation.blur.to    = 5;
+    this._text03.animation.duration   = 200;
+
+    this._text03.animation.duration = 3000;
+    this._text03.animation.delay    = 5000;
+
+    this._text03.event.tap = () => {
+
+    };
+
+    this._text03.put(this.app.stage);
+    this._text03.run('stage15', this.app.ticker);
   }
 }
