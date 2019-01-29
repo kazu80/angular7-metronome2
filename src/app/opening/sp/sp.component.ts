@@ -73,6 +73,9 @@ export class SpComponent implements OnInit {
         case 'stage15':
           this.stage15();
           break;
+        case 'stage16':
+          this.stage16();
+          break;
       }
     });
 
@@ -363,10 +366,48 @@ export class SpComponent implements OnInit {
     this._text03.animation.delay    = 5000;
 
     this._text03.event.tap = () => {
-
+      this.mainService.setMode('stage16');
     };
 
     this._text03.put(this.app.stage);
     this._text03.run('stage15', this.app.ticker);
+  }
+
+  stage16() {
+    // LOGO
+    this._image01.animation.alpha.from = 1;
+    this._image01.animation.alpha.to   = 0;
+    this._image01.animation.blur.from  = 0;
+    this._image01.animation.blur.to    = 5;
+    this._image01.animation.delay      = 1;
+    this._image01.animation.duration   = 400;
+    this._image01.run('stage16', this.app.ticker);
+
+    // LOGO 背景
+    this._image02.animation.alpha.from = 1;
+    this._image02.animation.alpha.to   = 0;
+    this._image02.animation.blur.from  = 0;
+    this._image02.animation.blur.to    = 5;
+    this._image02.animation.delay      = 1;
+    this._image02.animation.duration   = 400;
+    this._image02.run('stage17', this.app.ticker);
+
+    // METRONOME文字
+    this._text02.animation.alpha.from = 1;
+    this._text02.animation.alpha.to   = 0;
+    this._text02.animation.blur.from  = 0;
+    this._text02.animation.blur.to    = 5;
+    this._text02.animation.delay      = 1;
+    this._text02.animation.duration   = 200;
+    this._text02.run('stage18', this.app.ticker);
+
+    // Play
+    this._text03.animation.alpha.from = 1;
+    this._text03.animation.alpha.to   = 0;
+    this._text03.animation.blur.from  = 0;
+    this._text03.animation.blur.to    = 5;
+    this._text03.animation.delay      = 1;
+    this._text03.animation.duration   = 200;
+    this._text03.run('stage19', this.app.ticker);
   }
 }
