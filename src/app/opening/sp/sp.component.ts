@@ -409,5 +409,25 @@ export class SpComponent implements OnInit {
     this._text03.animation.delay      = 1;
     this._text03.animation.duration   = 200;
     this._text03.run('stage19', this.app.ticker);
+
+    // Circleを大きく
+    this._circle01.animation.scale.from = 0;
+    this._circle01.animation.scale.to   = 10;
+    this._circle01.animation.duration   = 500;
+    this._circle01.animation.delay      = 300;
+
+    this._circle02.animation.scale.from = 0;
+    this._circle02.animation.scale.to   = 10;
+    this._circle02.animation.duration   = 300;
+    this._circle02.animation.delay      = 300;
+
+    this._circle03.animation.scale.from = 0;
+    this._circle03.animation.scale.to   = 10;
+    this._circle03.animation.duration   = 200;
+    this._circle03.animation.delay      = 300;
+
+    this._circle01.run('stage9', this.app.ticker);
+    this._circle02.run('stage10', this.app.ticker);
+    this._circle03.run('stage11', this.app.ticker);
   }
 }
