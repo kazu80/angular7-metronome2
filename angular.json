@@ -31,6 +31,7 @@
             ],
             "scripts": [
               "node_modules/pixi.js/dist/pixi.min.js",
+              "node_modules/pixi-sound/dist/pixi-sound.js",
               "node_modules/stats-js/build/stats.min.js"
             ]
           },
