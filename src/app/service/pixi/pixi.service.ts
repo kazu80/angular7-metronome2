@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 import {PixiCircle, PixiImage, PixiRect, PixiText} from './pixi.methods';
+import {PixiSound} from './pixi.sound';
 
 @Injectable({
   providedIn: 'root'
@@ -50,6 +51,10 @@ export class PixiService {
 
   image(): PixiImage {
     return new PixiImage(this);
+  }
+
+  sound(): PixiSound {
+    return new PixiSound();
   }
 
   get device(): string {

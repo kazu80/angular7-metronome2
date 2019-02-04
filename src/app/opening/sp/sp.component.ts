@@ -2,6 +2,7 @@ import {Component, ElementRef, OnInit} from '@angular/core';
 import {MainService} from '../../service/main.service';
 import {PixiService} from '../../service/pixi/pixi.service';
 import {PixiCircle, PixiImage, PixiText} from '../../service/pixi/pixi.methods';
+import {PixiSound} from '../../service/pixi/pixi.sound';
 
 declare var PIXI: any;
 
@@ -26,6 +27,8 @@ export class SpComponent implements OnInit {
   private _image01: PixiImage;
   private _image02: PixiImage;
 
+  private _sound01: PixiSound;
+
   constructor(
     el: ElementRef,
     private mainService: MainService,
@@ -41,8 +44,18 @@ export class SpComponent implements OnInit {
     // Set Event
     this.eventOfMode();
 
-    // Set Mode - stage0
-    this.mainService.setMode('stage0');
+    /**
+     * Soundを読み込む。読み込んだら始める
+     */
+    this._sound01 = this.pixiService.sound();
+    this._sound01.resource([
+      {'name': 'opening', 'path': 'assets/sound/staging/open01.mp3'},
+      {'name': 'circle', 'path': 'assets/sound/staging/open02.mp3'}
+    ]).then(() => {
+
+      // Set Mode - stage0
+      this.mainService.setMode('stage0');
+    });
   }
 
   eventOfMode() {
@@ -140,6 +153,9 @@ export class SpComponent implements OnInit {
     this._text01.anchor.y = 0.5;
 
     this._text01.event.tap = () => {
+      // Sound再生
+      this._sound01.play('circle');
+
       this.mainService.setMode('stage2');
     };
 
