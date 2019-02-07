@@ -86,8 +86,8 @@ export class SpComponent implements OnInit {
         case 'stage15':
           this.stage15();
           break;
-        case 'stage16':
-          this.stage16();
+        case 'stage17':
+          this.stage17();
           break;
       }
     });
@@ -154,9 +154,16 @@ export class SpComponent implements OnInit {
 
     this._text01.event.tap = () => {
       // Sound再生
-      this._sound01.play('circle');
+      const sound_progress = this._sound01.play('opening');
+      let isStage2         = false;
+      sound_progress.on('progress', (progress) => {
+        if (isStage2 === false && Math.round(progress * 100) === 20) {
+          isStage2 = true;
 
-      this.mainService.setMode('stage2');
+          this._sound01.play('circle');
+          this.mainService.setMode('stage2');
+        }
+      });
     };
 
     this._text01.put(this.app.stage);
@@ -257,7 +264,7 @@ export class SpComponent implements OnInit {
     this._image01.animation.blur.from  = 5;
     this._image01.animation.blur.to    = 0;
     this._image01.animation.duration   = 200;
-    this._image01.animation.delay      = 400;
+    this._image01.animation.delay      = 2000;
 
     this._image01.run('stage6', this.app.ticker);
 
@@ -280,7 +287,7 @@ export class SpComponent implements OnInit {
     this._text02.animation.blur.from  = 5;
     this._text02.animation.blur.to    = 0;
     this._text02.animation.duration   = 200;
-    this._text02.animation.delay      = 400;
+    this._text02.animation.delay      = 2000;
 
     this._text02.put(this.app.stage);
     this._text02.run('stage7', this.app.ticker);
@@ -302,8 +309,8 @@ export class SpComponent implements OnInit {
     this._image02.animation.position.y.from = window.innerHeight * -1.4;
     this._image02.animation.position.y.to   = window.innerHeight * 0.5;
 
-    this._image02.animation.delay    = 1000;
-    this._image02.animation.duration = 600;
+    this._image02.animation.duration = 1000;
+    this._image02.animation.delay    = 5000;
 
     this._image02.put(this.app.stage, 'assets/image/sp/angular-blank.png');
     this._image02.run('stage8', this.app.ticker);
@@ -352,7 +359,7 @@ export class SpComponent implements OnInit {
     this._image02.animation.position.y.to   = window.innerHeight * 0.5 - 80;
 
     this._image02.animation.delay    = 100;
-    this._image02.animation.duration = 3000;
+    this._image02.animation.duration = 5000;
 
     this._image02.run('stage14', this.app.ticker);
   }
@@ -382,14 +389,17 @@ export class SpComponent implements OnInit {
     this._text03.animation.delay    = 5000;
 
     this._text03.event.tap = () => {
-      this.mainService.setMode('stage16');
+      this.mainService.setMode('stage17');
     };
 
     this._text03.put(this.app.stage);
     this._text03.run('stage15', this.app.ticker);
   }
 
-  stage16() {
+  stage17() {
+    // SOUND
+    this._sound01.play('circle');
+
     // LOGO
     this._image01.animation.alpha.from = 1;
     this._image01.animation.alpha.to   = 0;
@@ -397,7 +407,7 @@ export class SpComponent implements OnInit {
     this._image01.animation.blur.to    = 5;
     this._image01.animation.delay      = 1;
     this._image01.animation.duration   = 400;
-    this._image01.run('stage16', this.app.ticker);
+    this._image01.run('stage18', this.app.ticker);
 
     // LOGO 背景
     this._image02.animation.alpha.from = 1;
@@ -406,7 +416,7 @@ export class SpComponent implements OnInit {
     this._image02.animation.blur.to    = 5;
     this._image02.animation.delay      = 1;
     this._image02.animation.duration   = 400;
-    this._image02.run('stage17', this.app.ticker);
+    this._image02.run('stage19', this.app.ticker);
 
     // METRONOME文字
     this._text02.animation.alpha.from = 1;
@@ -415,7 +425,7 @@ export class SpComponent implements OnInit {
     this._text02.animation.blur.to    = 5;
     this._text02.animation.delay      = 1;
     this._text02.animation.duration   = 200;
-    this._text02.run('stage18', this.app.ticker);
+    this._text02.run('stage20', this.app.ticker);
 
     // Play
     this._text03.animation.alpha.from = 1;
@@ -424,7 +434,7 @@ export class SpComponent implements OnInit {
     this._text03.animation.blur.to    = 5;
     this._text03.animation.delay      = 1;
     this._text03.animation.duration   = 200;
-    this._text03.run('stage19', this.app.ticker);
+    this._text03.run('stage21', this.app.ticker);
 
     // Circleを大きく
     this._circle01.animation.scale.from = 0;
@@ -442,8 +452,8 @@ export class SpComponent implements OnInit {
     this._circle03.animation.duration   = 200;
     this._circle03.animation.delay      = 300;
 
-    this._circle01.run('stage9', this.app.ticker);
-    this._circle02.run('stage10', this.app.ticker);
-    this._circle03.run('stage11', this.app.ticker);
+    this._circle01.run('stage22', this.app.ticker);
+    this._circle02.run('stage23', this.app.ticker);
+    this._circle03.run('stage24', this.app.ticker);
   }
 }

@@ -113,9 +113,6 @@ export class PixiMethodBase {
       if (this.style.color &&
         'style' in this.instanceObject &&
         this.instanceObject.style.fill !== this.style.color) {
-
-        console.log('foo', stage, this.style.color);
-
         this.instanceObject.style.fill = this.style.color;
       }
 

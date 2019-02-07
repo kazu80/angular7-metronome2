@@ -33,7 +33,7 @@ export class PixiSound {
     });
   }
 
-  play(name: string): void {
-    this._sounds[name].play();
+  play(name: string) {
+    return this._sounds[name].play();
   }
 }
