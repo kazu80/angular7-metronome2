@@ -50,7 +50,8 @@ export class SpComponent implements OnInit {
     this._sound01 = this.pixiService.sound();
     this._sound01.resource([
       {'name': 'opening', 'path': 'assets/sound/staging/open01.mp3'},
-      {'name': 'circle', 'path': 'assets/sound/staging/open02.mp3'}
+      {'name': 'circle', 'path': 'assets/sound/staging/open02.mp3'},
+      {'name': 'explosion', 'path': 'assets/sound/staging/open04.mp3'}
     ]).then(() => {
 
       // Set Mode - stage0
@@ -163,6 +164,10 @@ export class SpComponent implements OnInit {
           this._sound01.play('circle');
           this.mainService.setMode('stage2');
         }
+      });
+
+      sound_progress.on('end', () => {
+        this._sound01.play('explosion');
       });
     };
 
@@ -338,7 +343,7 @@ export class SpComponent implements OnInit {
     this._text02.style.color               = 'black';
     this._text02.animation.position.y.from = this._image01.position.y + (this._image01.height() * 0.5) + 20;
     this._text02.animation.position.y.to   = this._image01.position.y + (this._image01.height() * 0.5);
-    this._text02.animation.delay           = 2800;
+    this._text02.animation.delay           = 4600;
     this._text02.animation.duration        = 400;
 
     this._text02.run('stage12', this.app.ticker);
@@ -379,14 +384,12 @@ export class SpComponent implements OnInit {
     this._text03.anchor.y   = 0.5;
 
 
-    this._text03.animation.alpha.from = 1;
-    this._text03.animation.alpha.to   = 0;
-    this._text03.animation.blur.from  = 0;
-    this._text03.animation.blur.to    = 5;
-    this._text03.animation.duration   = 200;
-
-    this._text03.animation.duration = 3000;
-    this._text03.animation.delay    = 5000;
+    this._text03.animation.alpha.from = 0;
+    this._text03.animation.alpha.to   = 1;
+    this._text03.animation.blur.from  = 5;
+    this._text03.animation.blur.to    = 0;
+    this._text03.animation.duration   = 400;
+    this._text03.animation.delay      = 1500;
 
     this._text03.event.tap = () => {
       this.mainService.setMode('stage17');
