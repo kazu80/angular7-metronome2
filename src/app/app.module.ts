@@ -7,6 +7,7 @@ import { PcComponent } from './opening/pc/pc.component';
 import {StatsComponent} from './opening/stats/stats.component';
 import {MediaQueryComponent} from './media-query/media-query.component';
 import {SpComponent} from './opening/sp/sp.component';
+import {TopComponent} from './metronome/top/top.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import {SpComponent} from './opening/sp/sp.component';
     PcComponent,
     StatsComponent,
     MediaQueryComponent,
-    SpComponent
+    SpComponent,
+    TopComponent
   ],
   imports: [
     BrowserModule,
